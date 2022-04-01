@@ -6,11 +6,12 @@ export default function Input({ fullWidth, ...rest }) {
   return (
     <>
       <input
-        className={`text-xl uppercase bg-primary border-4 border-black rounded-md text-black font-vt323 ${shadow} p-1 ${
+        className={`text-xl uppercase bg-primary border-4 border-black rounded-md text-black font-vt323 placeholder-slate-700 ${shadow} p-1 ${
           fullWidth ? "w-full" : ""
         }
           focus-visible:outline-none
-          `}>
+          `}
+        {...rest}>
         {/* <div className="w-full h-full px-3 border-4 border-black rounded-md">{children}</div> */}
       </input>
     </>

@@ -1,17 +1,17 @@
-//import "./App.css";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { Routes, Route, Outlet, Link } from "react-router-dom";
 
-import SnakeGame from "./pages/SnakeGame";
 import Page2 from "./pages/Page2";
-import Results from "./pages/Results";
+
 import StartScreen from "./pages/StartScreen";
 
 import { GameContext, GameContextProvider } from "./context/GameContext";
-import ResultsFirebase from "./pages/ResultsFirebase";
+
 import GameOver from "./pages/GameOver";
 import GamePage from "./pages/GamePage";
+import NothingHere from "./pages/NothingHere";
+import Highscores from "./pages/Highscores";
 
 function App() {
   //const navigate = useNavigate();
@@ -32,62 +32,51 @@ function App() {
 
   return (
     <div>
-      {/* <div className="flex items-center justify-around w-full h-10 bg-pink-600">
-        <a href="#/" onClick={() => navigate("/")}>
-          Snake
-        </a>
-        <a href="#/" onClick={() => navigate("/2")}>
-          Page2
-        </a>
-        <a href="#/" onClick={() => navigate("/results")}>
-          Results
-        </a>
-      </div> */}
+      <GameContextProvider>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <nav>
+                  <ul className="flex gap-4">
+                    <li>
+                      <Link to="/">Home</Link>
+                    </li>
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <GameContextProvider>
-              {/* <StartScreen /> */}
+                    <li>
+                      <Link to="/highscores">Highscores</Link>
+                    </li>
+                    <li>
+                      <Link to="/gameover">Game Over</Link>
+                    </li>
+                    <li>
+                      <Link to="/game">Game</Link>
+                    </li>
+                    <li>
+                      <Link to="/nothinghere">Nothing Here</Link>
+                    </li>
+                  </ul>
+                </nav>
+                <section className="flex justify-center min-h-screen bg-primary">
+                  <Outlet />
+                </section>
+              </>
+            }>
+            <Route index element={<StartScreen />} />
 
-              <nav>
-                <ul className="flex gap-4">
-                  <li>
-                    <Link to="/">Home</Link>
-                  </li>
-                  <li>
-                    <Link to="/results">Results</Link>
-                  </li>
-                  <li>
-                    <Link to="/gameover">Game Over</Link>
-                  </li>
-                  <li>
-                    <Link to="/game">Game</Link>
-                  </li>
-                  <li>
-                    <Link to="/nothing-here">Nothing Here</Link>
-                  </li>
-                </ul>
-              </nav>
-              <section className="min-h-screen bg-primary">
-                <Outlet />
-              </section>
-            </GameContextProvider>
-          }>
-          <Route index element={<StartScreen />} />
-          <Route path="/results" element={<ResultsFirebase />} />
-          <Route path="/game" element={<GamePage />} />
-          <Route path="/gameover" element={<GameOver />} />
+            <Route path="/highscores" element={<Highscores />} />
+            <Route path="/game" element={<GamePage />} />
+            <Route path="/gameover" element={<GameOver />} />
+            <Route path="/nothinghere" element={<NothingHere />} />
 
-          {/* Using path="*"" means "match anything", so this route
+            {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}
-          <Route path="*" element={<p>**WSZYSTKO**</p>} />
-        </Route>
-      </Routes>
-
-      {/* <SnakeGame /> */}
+            <Route path="*" element={<p>**WSZYSTKO**</p>} />
+          </Route>
+        </Routes>
+      </GameContextProvider>
     </div>
   );
 }

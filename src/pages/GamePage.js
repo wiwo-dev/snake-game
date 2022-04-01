@@ -1,30 +1,29 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import Food from "../components/Food";
 import Heading from "../components/Heading";
-import controllerCenter from "../components/controller/controller-center.svg";
-import controllerDown from "../components/controller/controller-down.svg";
-import controller from "../components/controller/controller.svg";
-import JoyStick from "../components/JoyStick";
 
-import startButton from "../components/controller/start.svg";
+import JoyStick from "../components/JoyStick";
 import { GameContext } from "../context/GameContext";
 
 import Board from "../modules/snake-game/Board";
 import Game from "../modules/snake-game/Game";
 import useKeyboardControl from "../modules/snake-game/useKeyboardControl";
 import useInterval from "../utils/useInterval";
+import ControlButton from "../components/ControlButton";
+import SubpageHeader from "../components/SubpageHeader";
 
 const BOARD_WIDTH = 20;
 const BOARD_HEIGHT = 15;
 
 export default function GamePage() {
-  const [controllerPosition, setcontrollerPosition] = useState(controllerCenter);
-
-  const { userName, setUserName, speed, setSpeed, score, gameStatus, setGameStatus } = useContext(GameContext);
+  const { userName, setUserName, speed, setSpeed, score, setScore, gameStatus, setGameStatus } =
+    useContext(GameContext);
 
   const game = useRef(new Game({ snakeHeadPosition: { x: 2, y: 5 }, width: BOARD_WIDTH, height: BOARD_HEIGHT }));
 
   const getRefreshedGameState = () => {
+    setScore(game.current.points);
     return {
       snakeHeadPosition: game.current.snake.getHeadPosition(),
       points: game.current.points,
@@ -62,15 +61,30 @@ export default function GamePage() {
     if (gameState.status !== "STOPPED") {
       makeOneMove();
     }
-  }, 250);
+  }, 450 / speed);
+
+  const handlePauseClick = () => {
+    console.log("start click");
+    handleStopGameClick();
+    if (gameStatus === "RUNNING") {
+      setGameStatus("STOPPED");
+    }
+    if (gameStatus === "STOPPED") setGameStatus("RUNNING");
+  };
+
+  let navigate = useNavigate();
+  const handleGameOverClick = () => {
+    navigate("/gameover");
+  };
 
   return (
     <>
       <section className="max-w-md">
-        <Heading variant="h1">Game</Heading>
+        <SubpageHeader>Game</SubpageHeader>
+
         <div className="px-5">
           <div className="flex justify-between">
-            <p className="font-vt323">Score: 123</p>
+            <p className="font-vt323">Score: {score}</p>
             <p className="font-vt323">{gameStatus}</p>
           </div>
           <div className="w-full h-2 border-t-2 border-black"></div>
@@ -84,30 +98,11 @@ export default function GamePage() {
 
           <div className="flex justify-around">
             <JoyStick direction={direction} onDirectionChange={handleDirectionChange} />
-            <img
-              alt="start"
-              src={startButton}
-              onClick={() => {
-                console.log("start click");
-                handleStopGameClick();
-                if (gameStatus === "RUNNING") {
-                  setGameStatus("STOPPED");
-                }
-                if (gameStatus === "STOPPED") setGameStatus("RUNNING");
-              }}
-            />
+            <div className="flex flex-col">
+              <ControlButton onClick={handlePauseClick}>PAUSE</ControlButton>
+              <ControlButton onClick={handleGameOverClick}>STOP</ControlButton>
+            </div>
           </div>
-          {/* <img src={controller} /> */}
-          {/* <img
-            src={controllerPosition}
-            onClick={() => {
-              console.log("test");
-              if (controllerPosition != controllerDown) setcontrollerPosition(controllerDown);
-              if (controllerPosition != controllerCenter) setcontrollerPosition(controllerCenter);
-            }}
-          />
-          <img src={controllerCenter} />
-          <img src={controllerDown} /> */}
         </div>
       </section>
     </>
