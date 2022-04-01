@@ -1,25 +1,7 @@
 import React, { useEffect, useState } from "react";
-
-import { useNavigate } from "react-router-dom";
-
-import {
-  collection,
-  query,
-  where,
-  orderBy,
-  limit,
-  onSnapshot,
-  getDocs,
-  addDoc,
-  startAt,
-  startAfter,
-  Timestamp,
-  endAt,
-  endBefore,
-} from "firebase/firestore";
+import { collection, query, where, orderBy, limit, getDocs, startAfter } from "firebase/firestore";
 import db from "../utils/Firebase";
-import Heading from "../components/Heading";
-import HighScoresRow from "../components/HighScoresRow";
+
 import Button from "../components/Button";
 import SubpageHeader from "../components/SubpageHeader";
 
@@ -74,7 +56,7 @@ export default function Highscores() {
 
   return (
     <>
-      <section className="max-w-md">
+      <section className="">
         <SubpageHeader>Highscores</SubpageHeader>
         <div className="px-7">
           <table className="w-3/4 mx-auto text-lg font-vt323">

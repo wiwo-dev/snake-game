@@ -1,7 +1,5 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import Food from "../components/Food";
-import Heading from "../components/Heading";
+import { useNavigate } from "react-router-dom";
 
 import JoyStick from "../components/JoyStick";
 import { GameContext } from "../context/GameContext";
@@ -17,23 +15,30 @@ const BOARD_WIDTH = 20;
 const BOARD_HEIGHT = 15;
 
 export default function GamePage() {
-  const { userName, setUserName, speed, setSpeed, score, setScore, gameStatus, setGameStatus } =
-    useContext(GameContext);
+  const { speed, score, setScore, gameStatus, setGameStatus } = useContext(GameContext);
 
   const game = useRef(new Game({ snakeHeadPosition: { x: 2, y: 5 }, width: BOARD_WIDTH, height: BOARD_HEIGHT }));
 
   const getRefreshedGameState = () => {
-    setScore(game.current.points);
     return {
       snakeHeadPosition: game.current.snake.getHeadPosition(),
       points: game.current.points,
       starPosition: game.current.starPosition,
       snakeArray: game.current.snake.getSnakeArray(),
+      status: game.current.gameStatus,
     };
   };
 
   const [gameState, setGameState] = useState(getRefreshedGameState());
   const [direction, setDirection] = useState("R");
+
+  useEffect(() => {
+    setGameStatus(gameState.status);
+    setScore(gameState.points);
+    setGameStatus(gameState.gameStatus);
+
+    if (gameState.status === "GAMEOVER") handleGameOver();
+  }, [gameState]);
 
   const handleDirectionChange = (dir) => {
     setDirection(dir);
@@ -47,10 +52,10 @@ export default function GamePage() {
     else setGameState({ ...gameState, status: "STOPPED" });
   };
 
-  const handleResetGameClick = () => {
-    game.current = new Game({ snakeHeadPosition: { x: 2, y: 5 }, width: BOARD_WIDTH, height: BOARD_HEIGHT });
-    setGameState({ ...gameState, status: "RESTARTED" });
-  };
+  // const handleResetGameClick = () => {
+  //   game.current = new Game({ snakeHeadPosition: { x: 2, y: 5 }, width: BOARD_WIDTH, height: BOARD_HEIGHT });
+  //   setGameState({ ...gameState, status: "RESTARTED" });
+  // };
 
   const makeOneMove = () => {
     game.current.makeNextStep();
@@ -64,7 +69,6 @@ export default function GamePage() {
   }, 450 / speed);
 
   const handlePauseClick = () => {
-    console.log("start click");
     handleStopGameClick();
     if (gameStatus === "RUNNING") {
       setGameStatus("STOPPED");
@@ -73,13 +77,13 @@ export default function GamePage() {
   };
 
   let navigate = useNavigate();
-  const handleGameOverClick = () => {
+  const handleGameOver = () => {
     navigate("/gameover");
   };
 
   return (
     <>
-      <section className="max-w-md">
+      <section className="">
         <SubpageHeader>Game</SubpageHeader>
 
         <div className="px-5">
@@ -100,7 +104,7 @@ export default function GamePage() {
             <JoyStick direction={direction} onDirectionChange={handleDirectionChange} />
             <div className="flex flex-col">
               <ControlButton onClick={handlePauseClick}>PAUSE</ControlButton>
-              <ControlButton onClick={handleGameOverClick}>STOP</ControlButton>
+              <ControlButton onClick={handleGameOver}>STOP</ControlButton>
             </div>
           </div>
         </div>

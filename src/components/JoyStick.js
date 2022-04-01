@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 
 export default function JoyStick({ direction, onDirectionChange }) {
   const svgRef = useRef();
@@ -27,14 +27,14 @@ export default function JoyStick({ direction, onDirectionChange }) {
         <g filter="url(#filter0_d_5_358)">
           <mask id="path-1-inside-1_5_358" fill="white">
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M95 6C95 2.68629 92.3137 0 89 0H51C47.6863 0 45 2.68629 45 6V39C45 42.3137 42.3137 45 39 45L6 45C2.68629 45 -1.44847e-07 47.6863 0 51L1.66103e-06 89C1.80588e-06 92.3137 2.68629 95 6 95H39C42.3137 95 45 97.6863 45 101V134C45 137.314 47.6863 140 51 140H89C92.3137 140 95 137.314 95 134V101C95 97.6863 97.6863 95 101 95H134C137.314 95 140 92.3137 140 89V51C140 47.6863 137.314 45 134 45L101 45C97.6863 45 95 42.3137 95 39V6Z"
             />
           </mask>
           <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
+            fillRule="evenodd"
+            clipRule="evenodd"
             d="M95 6C95 2.68629 92.3137 0 89 0H51C47.6863 0 45 2.68629 45 6V39C45 42.3137 42.3137 45 39 45L6 45C2.68629 45 -1.44847e-07 47.6863 0 51L1.66103e-06 89C1.80588e-06 92.3137 2.68629 95 6 95H39C42.3137 95 45 97.6863 45 101V134C45 137.314 47.6863 140 51 140H89C92.3137 140 95 137.314 95 134V101C95 97.6863 97.6863 95 101 95H134C137.314 95 140 92.3137 140 89V51C140 47.6863 137.314 45 134 45L101 45C97.6863 45 95 42.3137 95 39V6Z"
             fill="#92C300"
           />
@@ -45,14 +45,14 @@ export default function JoyStick({ direction, onDirectionChange }) {
           />
           <mask id="path-3-inside-2_5_358" fill="white">
             <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
+              fillRule="evenodd"
+              clipRule="evenodd"
               d="M88 14C88 10.6863 85.3137 8 82 8H58C54.6863 8 52 10.6863 52 14V46C52 49.3137 49.3137 52 46 52H14C10.6863 52 8 54.6863 8 58V82C8 85.3137 10.6863 88 14 88H46C49.3137 88 52 90.6863 52 94V126C52 129.314 54.6863 132 58 132H82C85.3137 132 88 129.314 88 126V94C88 90.6863 90.6863 88 94 88H126C129.314 88 132 85.3137 132 82V58C132 54.6863 129.314 52 126 52H94C90.6863 52 88 49.3137 88 46V14Z"
             />
           </mask>
           <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
+            fillRule="evenodd"
+            clipRule="evenodd"
             d="M88 14C88 10.6863 85.3137 8 82 8H58C54.6863 8 52 10.6863 52 14V46C52 49.3137 49.3137 52 46 52H14C10.6863 52 8 54.6863 8 58V82C8 85.3137 10.6863 88 14 88H46C49.3137 88 52 90.6863 52 94V126C52 129.314 54.6863 132 58 132H82C85.3137 132 88 129.314 88 126V94C88 90.6863 90.6863 88 94 88H126C129.314 88 132 85.3137 132 82V58C132 54.6863 129.314 52 126 52H94C90.6863 52 88 49.3137 88 46V14Z"
             fill="#92C300"
           />
@@ -67,7 +67,7 @@ export default function JoyStick({ direction, onDirectionChange }) {
             d="M59.5407 36.25L69.5 19L79.4593 36.25H59.5407Z"
             fill={direction === "U" ? "black" : ""}
             stroke="black"
-            stroke-width="2"
+            strokeWidth="2"
           />
 
           {/* <!-- DOWN --> */}
@@ -75,7 +75,7 @@ export default function JoyStick({ direction, onDirectionChange }) {
             d="M79.4593 106.75L69.5 124L59.5407 106.75L79.4593 106.75Z"
             fill={direction === "D" ? "black" : ""}
             stroke="black"
-            stroke-width="2"
+            strokeWidth="2"
           />
 
           {/* <!-- RIGHT --> */}
@@ -83,7 +83,7 @@ export default function JoyStick({ direction, onDirectionChange }) {
             d="M124.941 70.4413L107.691 80.4006L107.691 60.4821L124.941 70.4413Z"
             fill={direction === "R" ? "black" : ""}
             stroke="black"
-            stroke-width="2"
+            strokeWidth="2"
           />
 
           {/* <!-- LEFT --> */}
@@ -91,9 +91,9 @@ export default function JoyStick({ direction, onDirectionChange }) {
             d="M17.9413 70.4413L35.1913 60.4821L35.1913 80.4006L17.9413 70.4413Z"
             fill={direction === "L" ? "black" : ""}
             stroke="black"
-            stroke-width="2"
+            strokeWidth="2"
           />
-          <circle cx="70" cy="70" r="11" stroke="black" stroke-width="2" />
+          <circle cx="70" cy="70" r="11" stroke="black" strokeWidth="2" />
         </g>
         <defs>
           <filter
@@ -103,8 +103,8 @@ export default function JoyStick({ direction, onDirectionChange }) {
             width="140"
             height="144"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB">
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            colorInterpolationFilters="sRGB">
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
             <feColorMatrix
               in="SourceAlpha"
               type="matrix"

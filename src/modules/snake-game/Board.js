@@ -12,22 +12,13 @@ const Board = ({ width, height, star, snakeArray }) => {
   const Point = ({ x, y, oneCellSize }) => {
     let classString = ``;
     const num = checkIfSnake({ x, y });
-
+    //snake
     if (num) {
       classString = `${classString} ${num % 2 ? "bg-green-200" : "bg-green-400"} rounded-md`;
     }
 
-    if (num) {
-      return (
-        <div
-          style={{ display: "inline-block", width: `${oneCellSize}px`, height: `${oneCellSize}px` }}
-          className={classString}>
-          {x}
-        </div>
-      );
-    }
-
-    if (star.x === x && star.y === y) classString = `${classString} bg-yellow-400`;
+    //star
+    if (star.x === x && star.y === y) classString = `bg-yellow-400`;
 
     return (
       <div
@@ -44,11 +35,8 @@ const Board = ({ width, height, star, snakeArray }) => {
   useEffect(() => {
     const totalWidth = boardRef.current.getBoundingClientRect().width;
     setOneCellSize((totalWidth - 2 * width - 4) / width);
-    console.log(boardRef.current.getBoundingClientRect());
-    console.log("ONE CELL SIZE: " + oneCellSize);
-
     return () => {};
-  }, []);
+  }, [width]);
 
   return (
     <>

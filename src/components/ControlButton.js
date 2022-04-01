@@ -1,12 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 export default function ControlButton({ children, ...rest }) {
-  const svgRef = useRef();
-
-  const handleJoyStickClick = (e) => {
-    console.log(e.target);
-  };
-
   return (
     <>
       <svg width="121" height="63" viewBox="0 0 121 63" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
@@ -18,7 +12,7 @@ export default function ControlButton({ children, ...rest }) {
           rx="15.5"
           transform="rotate(-15 1.91347 31.2745)"
           stroke="black"
-          stroke-width="2"></rect>
+          strokeWidth="2"></rect>
         <text
           x="20"
           y="53"
@@ -40,7 +34,7 @@ export default function ControlButton({ children, ...rest }) {
             r="15.5"
             transform="rotate(-15 100.103 21.0115)"
             stroke="black"
-            stroke-width="2"
+            strokeWidth="2"
           />
         </g>
         <defs>
@@ -51,8 +45,8 @@ export default function ControlButton({ children, ...rest }) {
             width="33.0083"
             height="37.0082"
             filterUnits="userSpaceOnUse"
-            color-interpolation-filters="sRGB">
-            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            colorInterpolationFilters="sRGB">
+            <feFlood floodOpacity="0" result="BackgroundImageFix" />
             <feColorMatrix
               in="SourceAlpha"
               type="matrix"

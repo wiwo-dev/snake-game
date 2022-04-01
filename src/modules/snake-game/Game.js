@@ -10,7 +10,7 @@ export default function Game({ snakeHeadPosition, width, height }) {
   };
 
   //game status
-  this.gameStatus = { isOn: true, info: "", gameOver: false };
+  this.gameStatus = "RUNNING";
 
   //current direction
   this.direction = "R";
@@ -48,7 +48,7 @@ export default function Game({ snakeHeadPosition, width, height }) {
         if (y >= height) y = y - height;
         this.snake.moveSnake({ x: x, y: y });
       } else {
-        //console.log("❌ GAME OVER 😔");
+        console.log("❌ GAME OVER 😔");
         return;
       }
     } else if (x === this.starPosition.x && y === this.starPosition.y) {
@@ -58,7 +58,8 @@ export default function Game({ snakeHeadPosition, width, height }) {
       this.starPosition = randomPosition();
       this.snake.moveSnake({ x, y }, true);
     } else if (this.snake.getSnakeArray().filter((sn) => (sn.x === x) & (sn.y === y)).length > 0) {
-      //console.log("❌ GAME OVER 🍰🍰🍰🍰 ZJADŁEM SIĘ 😔");
+      console.log("❌ GAME OVER 🍰🍰🍰🍰 ZJADŁEM SIĘ 😔");
+      this.gameStatus = "GAMEOVER";
     } else {
       this.snake.moveSnake({ x, y });
     }

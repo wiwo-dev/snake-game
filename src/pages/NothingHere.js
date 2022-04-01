@@ -7,7 +7,7 @@ import HighScoresRow from "../components/HighScoresRow";
 import { GameContext } from "../context/GameContext";
 
 export default function NothingHere() {
-  const { userName, setUserName, speed, setSpeed } = useContext(GameContext);
+  const { speed, setSpeed } = useContext(GameContext);
   return (
     <>
       <section className="bg-primary">

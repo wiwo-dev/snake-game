@@ -1,17 +1,15 @@
 import React, { useContext, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
-import Heading from "../components/Heading";
 import Input from "../components/Input";
 import SubpageHeader from "../components/SubpageHeader";
-
 import { GameContext } from "../context/GameContext";
 
-import { collection, doc, setDoc, addDoc, Timestamp, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import db from "../utils/Firebase";
 
 export default function GameOver() {
-  const { userName, setUserName, speed, setSpeed, score } = useContext(GameContext);
+  const { userName, setUserName, score } = useContext(GameContext);
 
   const [isSaving, setIsSaving] = useState(false);
 
@@ -37,7 +35,7 @@ export default function GameOver() {
 
   return (
     <>
-      <section className="max-w-md">
+      <section className="">
         <SubpageHeader>Game Over</SubpageHeader>
         <section className="max-w-sm pt-8 mx-auto">
           <section className="flex flex-col items-stretch gap-6">
