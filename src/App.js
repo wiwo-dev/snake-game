@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { Routes, Route, Outlet } from "react-router-dom";
 import StartScreen from "./pages/StartScreen";
@@ -9,6 +9,7 @@ import GameOver from "./pages/GameOver";
 import GamePage from "./pages/GamePage";
 import NothingHere from "./pages/NothingHere";
 import Highscores from "./pages/Highscores";
+import Heading from "./components/Heading";
 
 function App() {
   const onResize = () => {

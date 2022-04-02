@@ -36,7 +36,8 @@ export default function Game({ snakeHeadPosition, width, height }) {
   };
 
   this.makeNextStep = () => {
-    //debugger;
+    if (this.gameStatus !== "RUNNING") return;
+
     let { x, y } = this.getNextPosition();
 
     //check if move valid

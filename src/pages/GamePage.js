@@ -9,7 +9,10 @@ import Game from "../modules/snake-game/Game";
 import useKeyboardControl from "../modules/snake-game/useKeyboardControl";
 import useInterval from "../utils/useInterval";
 import ControlButton from "../components/ControlButton";
+import Heading from "../components/Heading";
 import SubpageHeader from "../components/SubpageHeader";
+
+import SnakeAnimation from "../components/SnakeAnimation";
 
 const BOARD_WIDTH = 20;
 const BOARD_HEIGHT = 15;
@@ -26,29 +29,27 @@ export default function GamePage() {
       starPosition: game.current.starPosition,
       snakeArray: game.current.snake.getSnakeArray(),
       status: game.current.gameStatus,
+      direction: game.current.direction,
     };
   };
 
   const [gameState, setGameState] = useState(getRefreshedGameState());
-  const [direction, setDirection] = useState("R");
+  //const [direction, setDirection] = useState("R");
 
   useEffect(() => {
     setGameStatus(gameState.status);
     setScore(gameState.points);
-    setGameStatus(gameState.gameStatus);
-
     if (gameState.status === "GAMEOVER") handleGameOver();
   }, [gameState]);
 
   const handleDirectionChange = (dir) => {
-    setDirection(dir);
     game.current.direction = dir;
   };
 
   useKeyboardControl({ onChangeDirection: handleDirectionChange });
 
-  const handleStopGameClick = () => {
-    if (gameState.status === "STOPPED") setGameState({ ...gameState, status: "RESUMED" });
+  const handlePauseClick = () => {
+    if (gameState.status === "STOPPED") setGameState({ ...gameState, status: "RUNNING" });
     else setGameState({ ...gameState, status: "STOPPED" });
   };
 
@@ -68,24 +69,20 @@ export default function GamePage() {
     }
   }, 450 / speed);
 
-  const handlePauseClick = () => {
-    handleStopGameClick();
-    if (gameStatus === "RUNNING") {
-      setGameStatus("STOPPED");
-    }
-    if (gameStatus === "STOPPED") setGameStatus("RUNNING");
-  };
-
   let navigate = useNavigate();
+
   const handleGameOver = () => {
-    navigate("/gameover");
+    setGameState({ ...gameState, status: "GAMEOVER" });
+    game.current.gameStatus = "GAMEOVER";
+    setTimeout(() => {
+      navigate("/gameover");
+    }, 2000);
   };
 
   return (
     <>
-      <section className="">
+      <section className="relative">
         <SubpageHeader>Game</SubpageHeader>
-
         <div className="px-5">
           <div className="flex justify-between">
             <p className="font-vt323">Score: {score}</p>
@@ -101,13 +98,18 @@ export default function GamePage() {
             snakeArray={gameState.snakeArray}></Board>
 
           <div className="flex justify-around">
-            <JoyStick direction={direction} onDirectionChange={handleDirectionChange} />
+            <JoyStick direction={gameState.direction} onDirectionChange={handleDirectionChange} />
             <div className="flex flex-col">
               <ControlButton onClick={handlePauseClick}>PAUSE</ControlButton>
               <ControlButton onClick={handleGameOver}>STOP</ControlButton>
             </div>
           </div>
         </div>
+        {gameStatus === "GAMEOVER" && (
+          <div className="absolute top-0 left-0 right-0 h-24 bg-red-100">
+            <Heading>GAME OVER</Heading>
+          </div>
+        )}
       </section>
     </>
   );

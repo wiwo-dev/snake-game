@@ -9,7 +9,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import db from "../utils/Firebase";
 
 export default function GameOver() {
-  const { userName, setUserName, score } = useContext(GameContext);
+  const { userName, setUserName, score, lastSavedScore, setLastSavedScore } = useContext(GameContext);
 
   const [isSaving, setIsSaving] = useState(false);
 
@@ -25,6 +25,7 @@ export default function GameOver() {
     try {
       const res = await addDoc(collection(db, "scores"), docData);
       console.log(res.id);
+      setLastSavedScore({ ...docData, id: res.id });
       setIsSaving(false);
       navigate("/highscores");
     } catch (err) {
