@@ -20,7 +20,17 @@ const BOARD_HEIGHT = 15;
 export default function GamePage() {
   const { speed, score, setScore, gameStatus, setGameStatus } = useContext(GameContext);
 
-  const game = useRef(new Game({ snakeHeadPosition: { x: 2, y: 5 }, width: BOARD_WIDTH, height: BOARD_HEIGHT }));
+  const game = useRef(
+    new Game({
+      snakeHeadPosition: { x: 2, y: 5 },
+      width: BOARD_WIDTH,
+      height: BOARD_HEIGHT,
+      speed,
+      onChange: () => {
+        console.log("CHANGE");
+      },
+    })
+  );
 
   const getRefreshedGameState = () => {
     return {

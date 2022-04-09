@@ -1,6 +1,6 @@
 import Snake from "./Snake";
 
-export default function Game({ snakeHeadPosition, width, height }) {
+export default function Game({ snakeHeadPosition, width, height, speed, onChange }) {
   this.wallTeleport = true;
 
   //points
@@ -37,6 +37,7 @@ export default function Game({ snakeHeadPosition, width, height }) {
 
   this.makeNextStep = () => {
     if (this.gameStatus !== "RUNNING") return;
+    onChange();
 
     let { x, y } = this.getNextPosition();
 
@@ -54,7 +55,7 @@ export default function Game({ snakeHeadPosition, width, height }) {
       }
     } else if (x === this.starPosition.x && y === this.starPosition.y) {
       //PUNKT
-      this.points += 1;
+      this.points += 1 * speed;
       //console.log("yeah ⭐ punkty: " + this.points);
       this.starPosition = randomPosition();
       this.snake.moveSnake({ x, y }, true);

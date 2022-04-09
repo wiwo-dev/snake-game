@@ -25,7 +25,7 @@ export default function StartScreen() {
         <section className="flex flex-col gap-2 mt-7">
           <Heading variant="h2">Select speed</Heading>
           <div className="flex gap-5 mx-auto">
-            {[1, 2, 3].map((el, ind) => (
+            {[1, 2, 3, 4].map((el, ind) => (
               <Button
                 key={ind}
                 onClick={() => {

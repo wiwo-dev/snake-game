@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { motion } from "framer-motion";
 
 export default function JoyStick({ direction, onDirectionChange }) {
   const svgRef = useRef();
@@ -14,15 +15,34 @@ export default function JoyStick({ direction, onDirectionChange }) {
     if (fromTop > 0.33 && fromLeft > 0.33 && fromLeft < 0.66) onDirectionChange("D");
   };
 
+  const getStyle = (direction) => {
+    const perspective = "1500px";
+    const angle = "15deg";
+    switch (direction) {
+      case "U":
+        return { transform: `perspective(${perspective}) rotateX(${angle})` };
+      case "D":
+        return { transform: `perspective(${perspective}) rotateX(-${angle})` };
+      case "L":
+        return { transform: `perspective(${perspective}) rotateY(-${angle})` };
+      case "R":
+        return { transform: `perspective(${perspective}) rotateY(${angle})` };
+      default:
+        return { transform: "" };
+    }
+  };
+
   return (
     <>
-      <svg
+      <motion.svg
+        layout
         ref={svgRef}
         width="140"
         height="144"
         viewBox="0 0 140 144"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        animate={{ ...getStyle(direction) }}
         onClick={handleJoyStickClick}>
         <g filter="url(#filter0_d_5_358)">
           <mask id="path-1-inside-1_5_358" fill="white">
@@ -118,7 +138,7 @@ export default function JoyStick({ direction, onDirectionChange }) {
             <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_5_358" result="shape" />
           </filter>
         </defs>
-      </svg>
+      </motion.svg>
     </>
   );
 }
