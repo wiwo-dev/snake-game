@@ -2,7 +2,9 @@ import React from "react";
 
 export default function Button({ children, variant, fullWidth, ...rest }) {
   const setingsForButtons = `text-2xl uppercase border-4 rounded-md font-vt323 p-1`;
-  const shadow = `shadow-[0_10px_0px_-0px_rgba(0,0,0,0.5)] active:shadow-[0_3px_0px_-0px_rgba(0,0,0,0.5)] active:translate-y-1`;
+  const shadow = `shadow-[0_10px_0px_-0px_rgba(0,0,0,0.5)] active:shadow-[0_3px_0px_-0px_rgba(0,0,0,0.5)] active:translate-y-1
+  hover:shadow-[0px_8px_0px_-0px_rgba(0,0,0,0.5)] hover:translate-y-[2px]
+  `;
 
   if (variant === "clear" || variant === "light") {
     return (
