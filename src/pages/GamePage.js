@@ -5,7 +5,7 @@ import JoyStick from "../components/JoyStick";
 import { GameContext } from "../context/GameContext";
 
 import Board from "../modules/snake-game/Board";
-import Game from "../modules/snake-game/Game";
+import Game from "../modules/snake-game/useSnakeGame";
 import useKeyboardControl from "../modules/snake-game/useKeyboardControl";
 import useInterval from "../utils/useInterval";
 import ControlButton from "../components/ControlButton";
@@ -13,6 +13,7 @@ import Heading from "../components/Heading";
 import SubpageHeader from "../components/SubpageHeader";
 
 import SnakeAnimation from "../components/SnakeAnimation";
+import useSnakeGame from "../modules/snake-game/useSnakeGame";
 
 const BOARD_WIDTH = 20;
 const BOARD_HEIGHT = 15;
@@ -20,31 +21,13 @@ const BOARD_HEIGHT = 15;
 export default function GamePage() {
   const { speed, score, setScore, gameStatus, setGameStatus } = useContext(GameContext);
 
-  const game = useRef(
-    new Game({
+  const { gameState, makeNextStep, changeDirection, togglePause, gameOver, bonusPosition, bonusTimeRemaining } =
+    useSnakeGame({
       snakeHeadPosition: { x: 2, y: 5 },
       width: BOARD_WIDTH,
       height: BOARD_HEIGHT,
       speed,
-      onChange: () => {
-        console.log("CHANGE");
-      },
-    })
-  );
-
-  const getRefreshedGameState = () => {
-    return {
-      snakeHeadPosition: game.current.snake.getHeadPosition(),
-      points: game.current.points,
-      starPosition: game.current.starPosition,
-      snakeArray: game.current.snake.getSnakeArray(),
-      status: game.current.gameStatus,
-      direction: game.current.direction,
-    };
-  };
-
-  const [gameState, setGameState] = useState(getRefreshedGameState());
-  //const [direction, setDirection] = useState("R");
+    });
 
   useEffect(() => {
     setGameStatus(gameState.status);
@@ -52,38 +35,22 @@ export default function GamePage() {
     if (gameState.status === "GAMEOVER") handleGameOver();
   }, [gameState]);
 
-  const handleDirectionChange = (dir) => {
-    game.current.direction = dir;
-  };
-
-  useKeyboardControl({ onChangeDirection: handleDirectionChange });
+  const { direction } = useKeyboardControl({ onChange: changeDirection });
 
   const handlePauseClick = () => {
-    if (gameState.status === "STOPPED") setGameState({ ...gameState, status: "RUNNING" });
-    else setGameState({ ...gameState, status: "STOPPED" });
-  };
-
-  // const handleResetGameClick = () => {
-  //   game.current = new Game({ snakeHeadPosition: { x: 2, y: 5 }, width: BOARD_WIDTH, height: BOARD_HEIGHT });
-  //   setGameState({ ...gameState, status: "RESTARTED" });
-  // };
-
-  const makeOneMove = () => {
-    game.current.makeNextStep();
-    setGameState(getRefreshedGameState());
+    togglePause();
   };
 
   const [setActualDelay] = useInterval(() => {
     if (gameState.status !== "STOPPED") {
-      makeOneMove();
+      makeNextStep();
     }
   }, 450 / speed);
 
   let navigate = useNavigate();
 
   const handleGameOver = () => {
-    setGameState({ ...gameState, status: "GAMEOVER" });
-    game.current.gameStatus = "GAMEOVER";
+    gameOver();
     setTimeout(() => {
       navigate("/gameover");
     }, 2000);
@@ -103,12 +70,14 @@ export default function GamePage() {
           <Board
             width={BOARD_WIDTH}
             height={BOARD_HEIGHT}
-            star={game.current.starPosition}
-            snake={gameState.snakeHeadPosition}
-            snakeArray={gameState.snakeArray}></Board>
+            star={gameState.starPosition}
+            //snake={gameState.snakeHeadPosition}
+            snakeArray={gameState.snakeArray}
+            bonusPosition={bonusPosition}
+            bonusTimeRemaining={bonusTimeRemaining}></Board>
 
           <div className="flex justify-around">
-            <JoyStick direction={gameState.direction} onDirectionChange={handleDirectionChange} />
+            <JoyStick direction={gameState.direction} onDirectionChange={(dir) => changeDirection(dir)} />
             <div className="flex flex-col">
               <ControlButton onClick={handlePauseClick}>PAUSE</ControlButton>
               <ControlButton onClick={handleGameOver}>STOP</ControlButton>

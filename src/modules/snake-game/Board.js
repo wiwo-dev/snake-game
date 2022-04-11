@@ -1,35 +1,43 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const Board = ({ width, height, star, snakeArray }) => {
+const Board = ({ width, height, star, snakeArray, bonusPosition, bonusTimeRemaining }) => {
   const checkIfSnake = ({ x, y }) => {
     let numer;
     snakeArray.forEach((sn, ind) => {
-      if (sn.x === x && sn.y === y) numer = ind + 1;
+      if (sn && sn.x === x && sn.y === y) numer = ind + 1;
     });
     return numer;
   };
 
   const Point = ({ x, y, oneCellSize }) => {
     let classString = ``;
+    let insideText = ``;
     const num = checkIfSnake({ x, y });
     //snake
     if (num) {
       classString = `${classString} ${num % 2 ? "bg-green-200" : "bg-green-400"} rounded-md`;
+      insideText = num;
     }
 
     //star
     if (star.x === x && star.y === y) classString = `bg-yellow-400`;
 
+    //bonus
+    if (bonusPosition && bonusPosition.x === x && bonusPosition.y === y) {
+      classString = `bg-red-400`;
+      insideText = bonusTimeRemaining;
+    }
+
     return (
       <div
         className={classString}
-        style={{ display: "inline-block", width: `${oneCellSize}px`, height: `${oneCellSize}px` }}
-      />
+        style={{ display: "inline-block", width: `${oneCellSize}px`, height: `${oneCellSize}px` }}>
+        {insideText}
+      </div>
     );
   };
 
   const boardRef = useRef();
-
   const [oneCellSize, setOneCellSize] = useState(10);
 
   useEffect(() => {
