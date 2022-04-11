@@ -9,14 +9,16 @@ const Board = ({ width, height, star, snakeArray, bonusPosition, bonusTimeRemain
     return numer;
   };
 
-  const Point = ({ x, y, oneCellSize }) => {
+  const BoardCell = ({ x, y, oneCellSize }) => {
     let classString = ``;
     let insideText = ``;
     const num = checkIfSnake({ x, y });
     //snake
     if (num) {
-      classString = `${classString} ${num % 2 ? "bg-green-200" : "bg-green-400"} rounded-md`;
-      insideText = num;
+      classString = `${classString} ${
+        num % 2 ? "bg-green-200" : "bg-green-400"
+      } flex flex-col justify-center items-center`;
+      //insideText = num;
     }
 
     //star
@@ -29,10 +31,9 @@ const Board = ({ width, height, star, snakeArray, bonusPosition, bonusTimeRemain
     }
 
     return (
-      <div
-        className={classString}
-        style={{ display: "inline-block", width: `${oneCellSize}px`, height: `${oneCellSize}px` }}>
-        {insideText}
+      <div className={classString} style={{ width: `${oneCellSize}px`, height: `${oneCellSize}px` }}>
+        <p>{insideText}</p>
+        <p className="text-[10px]">{`${x}-${y}`}</p>
       </div>
     );
   };
@@ -42,20 +43,23 @@ const Board = ({ width, height, star, snakeArray, bonusPosition, bonusTimeRemain
 
   useEffect(() => {
     const totalWidth = boardRef.current.getBoundingClientRect().width;
-    setOneCellSize((totalWidth - 2 * width - 4) / width);
+    const cellCount = width;
+    //2*cellCount - borders inside
+    //-4 borders outside
+    setOneCellSize((totalWidth - 2 * cellCount - 4) / cellCount);
     return () => {};
   }, [width]);
 
   return (
     <>
       {/* ROWS */}
-      <div ref={boardRef} className="flex flex-col w-full border-[2px] border-black">
+      <div ref={boardRef} className="flex flex-col w-full border-[2px] border-black overflow-hidden">
         {[...Array(height)].map((y, iy) => (
           <div key={iy} className={`flex border-0 border-yellow-800`} style={{ height: `${oneCellSize}px` }}>
             {/* COLS */}
             {[...Array(width)].map((x, ix) => (
               <div key={width * iy + ix} className="border-[1px] border-[#A0D600] text-xs transition-all">
-                <Point x={ix} y={iy} oneCellSize={oneCellSize} />
+                <BoardCell x={ix} y={iy} oneCellSize={oneCellSize} />
               </div>
             ))}
           </div>

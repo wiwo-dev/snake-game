@@ -66,7 +66,7 @@ function App() {
             <Route path="/game" element={<GamePage />} />
             <Route path="/gameover" element={<GameOver />} />
             <Route path="/nothinghere" element={<NothingHere />} />
-            <Route path="/tests" element={<Tests />} />
+            {/* <Route path="/tests" element={<Tests />} /> */}
 
             {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
