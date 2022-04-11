@@ -21,9 +21,8 @@ const BOARD_HEIGHT = 15;
 export default function GamePage() {
   const { speed, score, setScore, gameStatus, setGameStatus } = useContext(GameContext);
 
-  const { gameState, makeNextStep, changeDirection, togglePause, gameOver, bonusPosition, bonusTimeRemaining } =
+  const { snake, gameState, makeNextStep, changeDirection, togglePause, gameOver, bonusPosition, bonusTimeRemaining } =
     useSnakeGame({
-      snakeHeadPosition: { x: 2, y: 5 },
       width: BOARD_WIDTH,
       height: BOARD_HEIGHT,
       speed,
@@ -71,10 +70,12 @@ export default function GamePage() {
             width={BOARD_WIDTH}
             height={BOARD_HEIGHT}
             star={gameState.starPosition}
-            //snake={gameState.snakeHeadPosition}
-            snakeArray={gameState.snakeArray}
+            snakeArray={snake}
             bonusPosition={bonusPosition}
-            bonusTimeRemaining={bonusTimeRemaining}></Board>
+            bonusTimeRemaining={bonusTimeRemaining}
+            gameOver={gameState.status === "GAMEOVER"}>
+            <p>test</p>
+          </Board>
 
           <div className="flex justify-around">
             <JoyStick direction={gameState.direction} onDirectionChange={(dir) => changeDirection(dir)} />
@@ -85,7 +86,7 @@ export default function GamePage() {
           </div>
         </div>
         {gameStatus === "GAMEOVER" && (
-          <div className="absolute top-0 left-0 right-0 h-24 bg-red-100">
+          <div className="absolute left-0 right-0 h-24 top-[300px]">
             <Heading>GAME OVER</Heading>
           </div>
         )}

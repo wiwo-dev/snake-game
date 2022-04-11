@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
-import Snake from "./Snake";
 import useBonusStar from "./useBonusStar";
+import useSnake from "./useSnake";
 
-export default function useSnakeGame({ snakeHeadPosition, width, height, speed }) {
+export default function useSnakeGame({ width, height, speed }) {
   const randomPosition = () => {
     return {
       x: Math.floor(Math.random() * width),
@@ -10,13 +10,11 @@ export default function useSnakeGame({ snakeHeadPosition, width, height, speed }
     };
   };
 
-  const snake = useRef(new Snake({ startPosition: snakeHeadPosition }));
+  const { snake, moveSnake } = useSnake(randomPosition());
 
   const [gameState, setGameState] = useState({
-    snakeHeadPosition: snake.current.getHeadPosition(),
     points: 0,
     starPosition: randomPosition(),
-    snakeArray: snake.current.getSnakeArray(),
     status: "RUNNING",
     direction: "R",
     wallTeleport: true,
@@ -39,7 +37,7 @@ export default function useSnakeGame({ snakeHeadPosition, width, height, speed }
   };
 
   const getNextPosition = () => {
-    let { x, y } = snake.current.getHeadPosition();
+    let { x, y } = snake[0];
     if (gameState.direction === "L") x = x - 1;
     if (gameState.direction === "R") x = x + 1;
     if (gameState.direction === "D") y = y + 1;
@@ -61,50 +59,36 @@ export default function useSnakeGame({ snakeHeadPosition, width, height, speed }
         if (y < 0) y = height + y;
         if (x >= width) x = x - width;
         if (y >= height) y = y - height;
-        snake.current.moveSnake({ x, y });
-        setGameState({
-          ...gameState,
-          snakeHeadPosition: snake.current.getHeadPosition(),
-          snakeArray: snake.current.getSnakeArray(),
-        });
+        moveSnake({ x, y });
       } else {
         console.log("❌ GAME OVER 😔");
         return;
       }
     } else if (x === gameState.starPosition.x && y === gameState.starPosition.y) {
       //PUNKT
-      snake.current.moveSnake({ x, y }, true);
+      moveSnake({ x, y }, true);
       setGameState({
         ...gameState,
         points: gameState.points + gameState.speed,
         starPosition: randomPosition(),
-        snakeHeadPosition: snake.current.getHeadPosition(),
-        snakeArray: snake.current.getSnakeArray(),
       });
       console.log("yeah ⭐ punkty: " + gameState.points);
     } else if (x === bonusPosition?.x && y === bonusPosition?.y) {
       //PUNKT BONUS
-      snake.current.moveSnake({ x, y }, true);
+      moveSnake({ x, y }, true);
       setGameState({
         ...gameState,
         points: gameState.points + bonusTimeRemaining,
-        snakeHeadPosition: snake.current.getHeadPosition(),
-        snakeArray: snake.current.getSnakeArray(),
       });
       onBonusScore();
       console.log("yeah ✡️ punkty: " + gameState.points);
-    } else if (snake.current.getSnakeArray().filter((sn) => (sn.x === x) & (sn.y === y)).length > 0) {
+    } else if (snake.filter((sn) => (sn.x === x) & (sn.y === y)).length > 0) {
       console.log("❌ GAME OVER 🍰🍰🍰🍰 ZJADŁEM SIĘ 😔");
       setGameState({ ...gameState, status: "GAMEOVER" });
     } else {
-      snake.current.moveSnake({ x, y });
-      setGameState({
-        ...gameState,
-        snakeHeadPosition: snake.current.getHeadPosition(),
-        snakeArray: snake.current.getSnakeArray(),
-      });
+      moveSnake({ x, y });
     }
   };
 
-  return { gameState, makeNextStep, changeDirection, togglePause, gameOver, bonusPosition, bonusTimeRemaining };
+  return { snake, gameState, makeNextStep, changeDirection, togglePause, gameOver, bonusPosition, bonusTimeRemaining };
 }

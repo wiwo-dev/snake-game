@@ -57,7 +57,7 @@ export default function Tests() {
     }
   };
 
-  //const [setActualDelay] = useInterval(action, 10);
+  const [setActualDelay] = useInterval(action, 10);
 
   const handleStartClick = () => {
     const start = { x: 10, y: 5 };
