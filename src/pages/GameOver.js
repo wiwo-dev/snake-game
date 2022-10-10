@@ -60,7 +60,10 @@ export default function GameOver() {
               <p></p>
             </form>
             <div className="pt-6">
-              <Button fullWidth variant="clear" onClick={() => navigate("/game")}>
+              <Button fullWidth variant="clear" onClick={() => navigate("/highscores")}>
+                HIGHSCORES
+              </Button>
+              <Button fullWidth variant="clear" onClick={() => navigate("/")}>
                 PLAY AGAIN
               </Button>
             </div>

@@ -16,12 +16,6 @@ export default function StartScreen() {
         <h1 className="mx-auto text-8xl font-vt323">Snake Game</h1>
 
         <SnakeAnimation />
-
-        <section className="mx-auto mt-7">
-          <Button fullWidth onClick={() => navigate("/game")}>
-            START GAME
-          </Button>
-        </section>
         <section className="flex flex-col gap-2 mt-7">
           <Heading variant="h2">Select speed</Heading>
           <div className="flex gap-5 mx-auto">
@@ -31,14 +25,20 @@ export default function StartScreen() {
                 onClick={() => {
                   setSpeed(el);
                 }}
-                variant={speed === el ? "clear" : ""}>
+                variant={speed === el ? "dark" : "ligth"}>
                 {el}
               </Button>
             ))}
           </div>
         </section>
+        <section className="mx-auto mt-7">
+          <Button fullWidth onClick={() => navigate("/game")}>
+            START GAME
+          </Button>
+        </section>
+
         <section className="flex flex-col gap-5 mx-auto w-44 mt-7">
-          <Button fullWidth onClick={() => navigate("/highscores")}>
+          <Button fullWidth variant="light" onClick={() => navigate("/highscores")}>
             HIGHSCORES
           </Button>
         </section>

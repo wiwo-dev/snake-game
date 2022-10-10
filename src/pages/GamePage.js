@@ -1,18 +1,14 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
+import { motion, useAnimation } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-
 import JoyStick from "../components/JoyStick";
 import { GameContext } from "../context/GameContext";
-
 import Board from "../modules/snake-game/Board";
-import Game from "../modules/snake-game/useSnakeGame";
 import useKeyboardControl from "../modules/snake-game/useKeyboardControl";
 import useInterval from "../utils/useInterval";
 import ControlButton from "../components/ControlButton";
 import Heading from "../components/Heading";
 import SubpageHeader from "../components/SubpageHeader";
-
-import SnakeAnimation from "../components/SnakeAnimation";
 import useSnakeGame from "../modules/snake-game/useSnakeGame";
 
 const BOARD_WIDTH = 20;
@@ -28,10 +24,16 @@ export default function GamePage() {
       speed,
     });
 
+  const gameOverHandled = useRef(false);
   useEffect(() => {
     setGameStatus(gameState.status);
     setScore(gameState.points);
-    if (gameState.status === "GAMEOVER") handleGameOver();
+    console.log("useEffect on gameState change - every change");
+    if (gameState.status === "GAMEOVER" && gameOverHandled.current === false) {
+      console.log("useEffect on gameState change - GAME OVER");
+      gameOverHandled.current = true;
+      handleGameOver();
+    }
   }, [gameState]);
 
   const { direction } = useKeyboardControl({ onChange: changeDirection });
@@ -48,12 +50,23 @@ export default function GamePage() {
 
   let navigate = useNavigate();
 
-  const handleGameOver = () => {
+  const handleGameOver = async () => {
     gameOver();
-    setTimeout(() => {
-      navigate("/gameover");
-    }, 2000);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    console.log("navigating to gameover");
+    navigate("/gameover");
   };
+
+  const controls = useAnimation();
+  useEffect(() => {
+    controls.start({
+      scale: [1, 1.3, 1],
+      transition: {
+        duration: 0.3,
+        //ease: "easeInOut",
+      },
+    });
+  }, [score]);
 
   return (
     <>
@@ -61,7 +74,9 @@ export default function GamePage() {
         <SubpageHeader>Game</SubpageHeader>
         <div className="px-5">
           <div className="flex justify-between">
-            <p className="font-vt323">Score: {score}</p>
+            <motion.p animate={controls} className="font-vt323">
+              Score: {score}
+            </motion.p>
             <p className="font-vt323">{gameStatus}</p>
           </div>
           <div className="w-full h-2 border-t-2 border-black"></div>
@@ -73,9 +88,7 @@ export default function GamePage() {
             snakeArray={snake}
             bonusPosition={bonusPosition}
             bonusTimeRemaining={bonusTimeRemaining}
-            gameOver={gameState.status === "GAMEOVER"}>
-            <p>test</p>
-          </Board>
+            gameOver={gameState.status === "GAMEOVER"}></Board>
 
           <div className="flex justify-around">
             <JoyStick direction={gameState.direction} onDirectionChange={(dir) => changeDirection(dir)} />

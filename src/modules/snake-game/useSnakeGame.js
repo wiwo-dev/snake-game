@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import useBonusStar from "./useBonusStar";
 import useSnake from "./useSnake";
 

@@ -12,7 +12,12 @@ export default function SubpageHeader({ children, variant }) {
           <h1 className={`text-4xl text-black font-vt323`}>{children}</h1>
         </div>
         <div className="flex-auto h-1 bg-black "></div>
-        <div className="px-4 hover:cursor-pointer" onClick={() => navigate("/")}>
+        <div
+          className="px-4 hover:cursor-pointer"
+          onClick={() => {
+            navigate("/");
+            console.log("CLICK");
+          }}>
           X
         </div>
       </div>

@@ -4,7 +4,7 @@ export const GameContext = React.createContext();
 
 export function GameContextProvider({ children }) {
   const [userName, setUserName] = useState("Jon Smith");
-  const [speed, setSpeed] = useState(2);
+  const [speed, setSpeed] = useState(3);
   const [score, setScore] = useState(0);
   const [lastSavedScore, setLastSavedScore] = useState(null);
 
