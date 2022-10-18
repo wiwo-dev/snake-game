@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 
-export default function useBonusStar({ randomPosition }) {
+const DEFAULT_BONUS_TIME = 60;
+const PROBABILITY = 3;
+
+export default function useBonusStar({ randomPosition, shouldCreateBonusStar }) {
   const [bonusPosition, setBonusPosition] = useState(randomPosition());
-  const DEFAULT_BONUS_TIME = 60;
   const [bonusTimeRemaining, setBonusTimeRemaining] = useState(DEFAULT_BONUS_TIME);
 
   const bonusStarTick = (speed) => {
     if (bonusTimeRemaining <= speed) {
       const probability = Math.random() * 100;
 
-      if (probability > 92) {
+      if (shouldCreateBonusStar) {
         setBonusPosition(randomPosition());
         setBonusTimeRemaining(DEFAULT_BONUS_TIME);
         return bonusPosition;
@@ -24,8 +26,8 @@ export default function useBonusStar({ randomPosition }) {
   };
 
   const onBonusScore = () => {
-    setBonusPosition(randomPosition());
-    setBonusTimeRemaining(DEFAULT_BONUS_TIME);
+    setBonusPosition(null);
+    setBonusTimeRemaining(0);
   };
 
   return { bonusPosition, bonusTimeRemaining, onBonusScore, bonusStarTick };

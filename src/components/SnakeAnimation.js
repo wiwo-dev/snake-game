@@ -1,11 +1,12 @@
 import React from "react";
-import snake from "./twemoji_snake.svg";
+//import snake from "./twemoji_snake.svg";
+import snake from "./snake2.svg";
 
 export default function SnakeAnimation() {
   return (
     <>
-      <div className="p-8 mx-auto bg-gray-500 border-2 border-black rounded-full w-fit shadow-[0_10px_0px_-0px_rgba(0,0,0,0.5)]">
-        <img className="mx-auto w-36" src={snake} alt="snake game logo" />
+      <div className="p-4 xs:p-6 md:p-10 mx-auto w-fit">
+        <img className="mx-auto w-32 md:w-44" src={snake} alt="snake game logo" />
       </div>
     </>
   );

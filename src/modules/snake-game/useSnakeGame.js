@@ -1,29 +1,64 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { GameContext } from "../../context/GameContext";
 import useBonusStar from "./useBonusStar";
 import useSnake from "./useSnake";
 
-export default function useSnakeGame({ width, height, speed }) {
-  const randomPosition = () => {
-    return {
-      x: Math.floor(Math.random() * width),
-      y: Math.floor(Math.random() * height),
-    };
-  };
+export default function useSnakeGame({ handleGameOver }) {
+  const { wallTeleport, gameState, setGameState, boardWidth, boardHeight } = useContext(GameContext);
 
-  const { snake, moveSnake } = useSnake(randomPosition());
+  //init
+  useEffect(() => {
+    setGameState({
+      ...gameState,
+      points: 0,
+      eatenElementsCount: 0,
+      starPosition: randomPosition(),
+      status: "RUNNING",
+      direction: "R",
+    });
+  }, []);
 
-  const [gameState, setGameState] = useState({
-    points: 0,
-    starPosition: randomPosition(),
-    status: "RUNNING",
-    direction: "R",
-    wallTeleport: true,
-    speed: speed,
+  const midX = Math.floor(boardWidth / 2);
+  const midY = Math.floor(boardHeight / 2);
+
+  const { snake, moveSnake } = useSnake({
+    startPosition: { x: midX, y: midY },
+    boardWidth: boardWidth,
+    boardHeight: boardHeight,
   });
 
-  const { bonusPosition, bonusTimeRemaining, onBonusScore, bonusStarTick } = useBonusStar({ randomPosition });
+  const randomPosition = () => {
+    let x;
+    let y;
+    const setRandom = () => {
+      x = Math.floor(Math.random() * boardWidth);
+      y = Math.floor(Math.random() * boardHeight);
+    };
+    setRandom();
+    const checkIfInSnake = () => {
+      return snake.filter((el) => el.x === x && el.y === y).length > 0;
+    };
+    const chekIfOnStar = () => {
+      return x === gameState.starPosition.x && y === gameState.starPosition.y;
+    };
+    while (checkIfInSnake() && chekIfOnStar()) setRandom();
+    return { x, y };
+  };
+
+  const shouldCreateBonusStar = () => {
+    return gameState.eatenElementsCount % 5 === 0 && gameState.eatenElementsCount > 0;
+  };
+
+  const { bonusPosition, bonusTimeRemaining, onBonusScore, bonusStarTick } = useBonusStar({
+    randomPosition,
+    shouldCreateBonusStar: shouldCreateBonusStar(),
+  });
 
   const changeDirection = (dir) => {
+    if (gameState.direction === "R" && dir === "L") return;
+    if (gameState.direction === "L" && dir === "R") return;
+    if (gameState.direction === "U" && dir === "D") return;
+    if (gameState.direction === "D" && dir === "U") return;
     setGameState({ ...gameState, direction: dir });
   };
 
@@ -53,42 +88,57 @@ export default function useSnakeGame({ width, height, speed }) {
     let { x, y } = getNextPosition();
 
     //check if move valid
-    if (x < 0 || y < 0 || x >= width || y >= height) {
-      if (gameState.wallTeleport) {
-        if (x < 0) x = width + x;
-        if (y < 0) y = height + y;
-        if (x >= width) x = x - width;
-        if (y >= height) y = y - height;
+    if (x < 0 || y < 0 || x >= boardWidth || y >= boardHeight) {
+      if (wallTeleport) {
+        if (x < 0) x = boardWidth + x;
+        if (y < 0) y = boardHeight + y;
+        if (x >= boardWidth) x = x - boardWidth;
+        if (y >= boardHeight) y = y - boardHeight;
         moveSnake({ x, y });
       } else {
         console.log("❌ GAME OVER 😔");
+        setGameState({ ...gameState, status: "GAMEOVER" });
+        handleGameOver();
         return;
       }
     } else if (x === gameState.starPosition.x && y === gameState.starPosition.y) {
-      //PUNKT
-      moveSnake({ x, y }, true);
+      //POINT!
+      moveSnake({ x, y, addPoint: true });
       setGameState({
         ...gameState,
         points: gameState.points + gameState.speed,
+        eatenElementsCount: gameState.eatenElementsCount + 1,
         starPosition: randomPosition(),
       });
-      console.log("yeah ⭐ punkty: " + gameState.points);
+      console.log("yeah ⭐ points: " + gameState.points);
     } else if (x === bonusPosition?.x && y === bonusPosition?.y) {
-      //PUNKT BONUS
-      moveSnake({ x, y }, true);
+      //BONUS POINT
+      moveSnake({ x, y, addPoint: true });
       setGameState({
         ...gameState,
         points: gameState.points + bonusTimeRemaining,
+        eatenElementsCount: gameState.eatenElementsCount + 1,
       });
       onBonusScore();
-      console.log("yeah ✡️ punkty: " + gameState.points);
+      console.log("yeah 🍎 points: " + gameState.points);
     } else if (snake.filter((sn) => (sn.x === x) & (sn.y === y)).length > 0) {
-      console.log("❌ GAME OVER 🍰🍰🍰🍰 ZJADŁEM SIĘ 😔");
+      console.log("❌ GAME OVER 🍰🍰🍰🍰 SNAKE EAT HIMSELF 😔");
       setGameState({ ...gameState, status: "GAMEOVER" });
+      handleGameOver();
     } else {
       moveSnake({ x, y });
     }
   };
 
-  return { snake, gameState, makeNextStep, changeDirection, togglePause, gameOver, bonusPosition, bonusTimeRemaining };
+  return {
+    snake,
+    gameState,
+    makeNextStep,
+    changeDirection,
+    togglePause,
+    gameOver,
+    bonusPosition,
+    bonusTimeRemaining,
+    randomPosition,
+  };
 }

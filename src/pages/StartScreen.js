@@ -13,9 +13,14 @@ export default function StartScreen() {
   return (
     <>
       <section className="flex flex-col gap-5 px-5 mx-auto">
-        <h1 className="mx-auto text-8xl font-vt323">Snake Game</h1>
-
+        <div className="flex flex-col">
+          <h1 className="mx-auto text-5xl xs:text-7xl md:text-8xl font-vt323">Snake Game</h1>
+          <p className="font-vt323 text-xl max-w-md mx-auto text-center">
+            Do you remember playing Snake on Nokia 3210?
+          </p>
+        </div>
         <SnakeAnimation />
+
         <section className="flex flex-col gap-2 mt-7">
           <Heading variant="h2">Select speed</Heading>
           <div className="flex gap-5 mx-auto">
@@ -31,17 +36,23 @@ export default function StartScreen() {
             ))}
           </div>
         </section>
-        <section className="mx-auto mt-7">
-          <Button fullWidth onClick={() => navigate("/game")}>
-            START GAME
-          </Button>
-        </section>
+        <div>
+          <section className="flex flex-col items-center gap-5 pt-5 max-w-sm mx-auto">
+            <Button fullWidth onClick={() => navigate("/game")}>
+              START GAME
+            </Button>
 
-        <section className="flex flex-col gap-5 mx-auto w-44 mt-7">
-          <Button fullWidth variant="light" onClick={() => navigate("/highscores")}>
-            HIGHSCORES
-          </Button>
-        </section>
+            <Button fullWidth variant="light" onClick={() => navigate("/highscores")}>
+              HIGHSCORES
+            </Button>
+            <Button fullWidth variant="light" onClick={() => navigate("/instructions")}>
+              INSTRUCTIONS
+            </Button>
+            <Button fullWidth variant="light" onClick={() => navigate("/settings")}>
+              SETTINGS
+            </Button>
+          </section>
+        </div>
       </section>
     </>
   );

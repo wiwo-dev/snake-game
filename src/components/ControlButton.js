@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function ControlButton({ children, ...rest }) {
+export default function ControlButton({ children, size = 120, ...rest }) {
   return (
     <>
-      <svg width="121" height="63" viewBox="0 0 121 63" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
+      <svg width={size} height="63" viewBox="0 0 121 63" fill="none" xmlns="http://www.w3.org/2000/svg" {...rest}>
         <rect
           x="1.91347"
           y="31.2745"

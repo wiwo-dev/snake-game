@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
 
-export default function JoyStick({ direction, onDirectionChange }) {
+export default function JoyStick({ direction, onDirectionChange, size = 200 }) {
   const svgRef = useRef();
 
   const handleJoyStickClick = (e) => {
@@ -37,8 +37,8 @@ export default function JoyStick({ direction, onDirectionChange }) {
       <motion.svg
         layout
         ref={svgRef}
-        width="140"
-        height="144"
+        width={size}
+        height={size}
         viewBox="0 0 140 144"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

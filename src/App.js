@@ -11,6 +11,9 @@ import NothingHere from "./pages/NothingHere";
 import Highscores from "./pages/Highscores";
 import Heading from "./components/Heading";
 import Tests from "./pages/Tests";
+import Instructions from "./pages/Instructions";
+import ScrollToTop from "./utils/ScrollToTop";
+import Settings from "./pages/Settings";
 
 function App() {
   const onResize = () => {
@@ -33,8 +36,8 @@ function App() {
             path="/"
             element={
               <>
-                <section className="min-h-screen pt-2 bg-primary">
-                  <div className="container max-w-3xl py-8 mx-auto border-2 border-black">
+                <section className="min-h-screen p-2 bg-primary">
+                  <div className="container max-w-3xl py-8 px-2 mx-auto border-2 border-black">
                     <Outlet />
                   </div>
                 </section>
@@ -42,6 +45,8 @@ function App() {
             }>
             <Route index element={<StartScreen />} />
             <Route path="/highscores" element={<Highscores />} />
+            <Route path="/instructions" element={<Instructions />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="/game" element={<GamePage />} />
             <Route path="/gameover" element={<GameOver />} />
             <Route path="/nothinghere" element={<NothingHere />} />

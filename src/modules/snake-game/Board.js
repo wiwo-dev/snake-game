@@ -1,8 +1,31 @@
 import React, { useEffect, useRef, useState } from "react";
+import useWindowWidth from "../../utils/useWindowWidth";
+import { AppleSVG } from "./Icons/Apple";
+import { PartBH } from "./Icons/PartBH";
+import { PartBV } from "./Icons/PartBV";
+import { PartCornerLeftBottom } from "./Icons/PartCornerLeftBottom";
+import { PartCornerLeftTop } from "./Icons/PartCornerLeftTop";
+import { PartCornerRightBottom } from "./Icons/PartCornerRightBottom";
+import { PartCornerRightTop } from "./Icons/PartCornerRightTop";
+import { PartHead } from "./Icons/PartHead";
+import { StarSVG } from "./Icons/Star";
 
-const Board = ({ width, height, star, snakeArray, bonusPosition, bonusTimeRemaining, gameOver, children }) => {
+const Board = ({
+  width,
+  height,
+  star,
+  snakeArray,
+  snakeParts,
+  bonusPosition,
+  bonusTimeRemaining,
+  gameOver,
+  headDirection,
+  children,
+}) => {
   const boardRef = useRef();
   const [oneCellSize, setOneCellSize] = useState(10);
+
+  const { windowWidth } = useWindowWidth();
 
   useEffect(() => {
     const totalWidth = boardRef.current.getBoundingClientRect().width;
@@ -12,7 +35,7 @@ const Board = ({ width, height, star, snakeArray, bonusPosition, bonusTimeRemain
     //setOneCellSize((totalWidth - 2 * cellCount - 4) / cellCount);
     setOneCellSize((totalWidth - 4) / cellCount);
     return () => {};
-  }, [width]);
+  }, [width, windowWidth]);
 
   return (
     <>
@@ -46,9 +69,13 @@ const Board = ({ width, height, star, snakeArray, bonusPosition, bonusTimeRemain
               x={el.x}
               y={el.y}
               oneCellSize={oneCellSize}
-              color={ind % 2 ? "bg-[rgba(0,0,0,.6)]" : "bg-[rgba(0,0,0,.4)]"}
+              //color={ind % 2 ? "bg-[rgba(0,0,0,.6)]" : "bg-[rgba(0,0,0,.4)]"}
+              fill={ind % 2 ? "rgba(0,0,0,.7)" : "rgba(0,0,0,.9)"}
               gameOverAnimation={gameOver && true}
-            />
+              type={el.part}
+              headDirection={headDirection}>
+              {el.part}
+            </BoardCellAbsolute>
           ))}
         </div>
       </div>
@@ -58,10 +85,21 @@ const Board = ({ width, height, star, snakeArray, bonusPosition, bonusTimeRemain
 
 export default Board;
 
-const BoardCellAbsolute = ({ x, y, oneCellSize, color, gameOverAnimation = false, type }) => {
+const BoardCellAbsolute = ({
+  x,
+  y,
+  oneCellSize,
+  color,
+  fill,
+  gameOverAnimation = false,
+  type,
+  headDirection,
+  children,
+}) => {
+  const snakeFill = "#777777";
   return (
     <div
-      className={`absolute ${color} ${gameOverAnimation && "animate-ping"}`}
+      className={`absolute ${color} ${gameOverAnimation && "animate-ping"} flex justify-center items-center`}
       style={{
         left: x * oneCellSize,
         top: y * oneCellSize,
@@ -70,46 +108,18 @@ const BoardCellAbsolute = ({ x, y, oneCellSize, color, gameOverAnimation = false
       }}>
       {type === "star" && <StarSVG size={oneCellSize} fill="rgba(0,0,0,0.8)" />}
       {type === "bonus" && <AppleSVG size={oneCellSize} fill="#DB4E4E" stroke="rgba(0,0,0,.8)" />}
+      {type === "H" && <PartHead size={oneCellSize} direction={headDirection} fill={fill} />}
+      {type === "HL" && <PartHead size={oneCellSize} direction={"L"} fill={fill} />}
+      {type === "HR" && <PartHead size={oneCellSize} direction={"R"} fill={fill} />}
+      {type === "HU" && <PartHead size={oneCellSize} direction={"U"} fill={fill} />}
+      {type === "HD" && <PartHead size={oneCellSize} direction={"D"} fill={fill} />}
+      {type === "BH" && <PartBH size={oneCellSize} fill={fill} />}
+      {type === "BV" && <PartBV size={oneCellSize} fill={fill} />}
+      {type === "CLB" && <PartCornerLeftBottom size={oneCellSize} fill={fill} />}
+      {type === "CLT" && <PartCornerLeftTop size={oneCellSize} fill={fill} />}
+      {type === "CRB" && <PartCornerRightBottom size={oneCellSize} fill={fill} />}
+      {type === "CRT" && <PartCornerRightTop size={oneCellSize} fill={fill} />}
+      {/* {children} */}
     </div>
-  );
-};
-
-const StarSVG = ({ size, fill = "black" }) => {
-  return (
-    <svg width={size} height={size} viewBox="0 0 20 20" fill="{fill}" xmlns="http://www.w3.org/2000/svg">
-      <rect y={7} width={6} height={6} />
-      <rect x={14} y={7} width={6} height={6} />
-      <rect x={7} width={6} height={6} />
-      <rect x={7} y={14} width={6} height={6} />
-    </svg>
-  );
-};
-
-const AppleSVG = ({ size, fill = "#DB4E4E", stroke = "rgba(0,0,0,.8)" }) => {
-  return (
-    <svg width={36} height={36} viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-      <g clipPath="url(#clip0_101_34)">
-        <path
-          d="M18 28.728C19.8 28.728 21.3 30 22.8 30C26.4 30 30 20.4 30 15.336C29.9591 13.7817 29.3055 12.3065 28.1816 11.2321C27.0577 10.1576 25.5546 9.57098 24 9.60002C21.336 9.60002 19.2 11.328 18 12C16.8 11.328 14.664 9.60002 12 9.60002C10.4445 9.56781 8.93964 10.1534 7.81504 11.2285C6.69043 12.3036 6.03777 13.7806 6 15.336C6 20.4 9.6 30 13.2 30C14.7 30 16.2 28.728 18 28.728Z"
-          fill={fill}
-          stroke={stroke}
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M15.6001 6C16.8001 6.6 18.0001 8.4 18.0001 12"
-          stroke={stroke}
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </g>
-      <defs>
-        <clipPath id="clip0_101_34">
-          <rect width={36} height={36} fill="white" />
-        </clipPath>
-      </defs>
-    </svg>
   );
 };

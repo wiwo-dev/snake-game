@@ -6,7 +6,7 @@ export default function Input({ fullWidth, ...rest }) {
   return (
     <>
       <input
-        className={`text-xl uppercase bg-primary border-4 border-black rounded-md text-black font-vt323 placeholder-slate-700 ${shadow} p-1 ${
+        className={`text-xl uppercase bg-primary border-4 border-black rounded-md text-black font-vt323 placeholder-gray-900 ${shadow} p-1 px-3 ${
           fullWidth ? "w-full" : ""
         }
           focus-visible:outline-none

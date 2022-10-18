@@ -13,6 +13,9 @@ export default function Button({ children, variant = "dark", fullWidth, loading 
   }
   `;
 
+  const settingsForLoadingDark = "rounded-md bg-[#92C300]";
+  const settingsForLoadingLight = "bg-[rgba(0,0,0,.5)]";
+
   return (
     <>
       <button
@@ -25,12 +28,20 @@ export default function Button({ children, variant = "dark", fullWidth, loading 
           {loading && (
             <>
               <motion.div
-                className="absolute top-0 overflow-hidden h-full -translate-x-3 bg-[rgba(0,0,0,.5)]"
+                className={`absolute top-0 overflow-hidden h-full -translate-x-3 ${
+                  variant === "dark" ? settingsForLoadingDark : settingsForLoadingLight
+                }`}
                 animate={{ width: ["0%", "100%"] }}
                 transition={{ repeat: Infinity, repeatType: "", duration: 1.3, ease: "easeOut" }}></motion.div>
-              <span className="absolute top-0 left-0 px-3 w-full flex justify-center">{children}</span>
+              <span
+                className={`absolute top-0 left-0 px-3 w-full flex justify-center ${
+                  variant === "dark" && "text-black z-50"
+                }`}>
+                {children}
+              </span>
             </>
           )}
+
           {children}
         </div>
       </button>

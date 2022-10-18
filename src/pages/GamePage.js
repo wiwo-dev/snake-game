@@ -11,31 +11,22 @@ import Heading from "../components/Heading";
 import SubpageHeader from "../components/SubpageHeader";
 import useSnakeGame from "../modules/snake-game/useSnakeGame";
 
-const BOARD_WIDTH = 20;
-const BOARD_HEIGHT = 15;
+// const BOARD_WIDTH = 20;
+// const BOARD_HEIGHT = 15;
 
 export default function GamePage() {
-  const { speed, score, setScore, gameStatus, setGameStatus } = useContext(GameContext);
+  const handleGameOver = async () => {
+    setGameState({ ...gameState, status: "GAMEOVER" });
+    console.log("handleGameOver");
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    console.log("navigating to gameover");
+    navigate("/gameover");
+  };
 
-  const { snake, gameState, makeNextStep, changeDirection, togglePause, gameOver, bonusPosition, bonusTimeRemaining } =
-    useSnakeGame({
-      width: BOARD_WIDTH,
-      height: BOARD_HEIGHT,
-      speed,
-    });
-
-  const gameOverHandled = useRef(false);
-  useEffect(() => {
-    setGameStatus(gameState.status);
-    setScore(gameState.points);
-    console.log("useEffect on gameState change - every change");
-    if (gameState.status === "GAMEOVER" && gameOverHandled.current === false) {
-      console.log("useEffect on gameState change - GAME OVER");
-      gameOverHandled.current = true;
-      handleGameOver();
-    }
-  }, [gameState]);
-
+  const { snake, makeNextStep, changeDirection, togglePause, bonusPosition, bonusTimeRemaining } = useSnakeGame({
+    handleGameOver,
+  });
+  const { speed, gameState, setGameState, boardWidth, boardHeight } = useContext(GameContext);
   const { direction } = useKeyboardControl({ onChange: changeDirection });
 
   const handlePauseClick = () => {
@@ -50,13 +41,6 @@ export default function GamePage() {
 
   let navigate = useNavigate();
 
-  const handleGameOver = async () => {
-    gameOver();
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log("navigating to gameover");
-    navigate("/gameover");
-  };
-
   const controls = useAnimation();
   useEffect(() => {
     controls.start({
@@ -66,39 +50,47 @@ export default function GamePage() {
         //ease: "easeInOut",
       },
     });
-  }, [score]);
+  }, [gameState.points]);
 
   return (
     <>
       <section className="relative">
         <SubpageHeader>Game</SubpageHeader>
-        <div className="px-5">
+        <div className="px-1 xs:px-2 sm:px-5 font-vt323">
           <div className="flex justify-between">
-            <motion.p animate={controls} className="font-vt323">
-              Score: {score}
+            <motion.p animate={controls} className="">
+              Score: {gameState.points} ({gameState.eatenElementsCount})
             </motion.p>
-            <p className="font-vt323">{gameStatus}</p>
+            <p className="">{bonusTimeRemaining > 0 && bonusTimeRemaining}</p>
+            <p className="">{gameState.status}</p>
           </div>
           <div className="w-full h-2 border-t-2 border-black"></div>
 
           <Board
-            width={BOARD_WIDTH}
-            height={BOARD_HEIGHT}
+            width={boardWidth}
+            height={boardHeight}
             star={gameState.starPosition}
             snakeArray={snake}
             bonusPosition={bonusPosition}
             bonusTimeRemaining={bonusTimeRemaining}
-            gameOver={gameState.status === "GAMEOVER"}></Board>
+            gameOver={gameState.status === "GAMEOVER"}
+            headDirection={gameState.direction}></Board>
 
-          <div className="flex justify-around">
-            <JoyStick direction={gameState.direction} onDirectionChange={(dir) => changeDirection(dir)} />
-            <div className="flex flex-col">
-              <ControlButton onClick={handlePauseClick}>PAUSE</ControlButton>
-              <ControlButton onClick={handleGameOver}>STOP</ControlButton>
+          <div className="flex justify-around mt-10 gap-6 xs:gap-3 flex-wrap">
+            <div>
+              <JoyStick direction={gameState.direction} onDirectionChange={(dir) => changeDirection(dir)} />
+            </div>
+            <div className="flex flex-row xs:flex-col gap-3 xs:gap-1">
+              <ControlButton size="100" onClick={handlePauseClick}>
+                PAUSE
+              </ControlButton>
+              <ControlButton size="100" onClick={handleGameOver}>
+                STOP
+              </ControlButton>
             </div>
           </div>
         </div>
-        {gameStatus === "GAMEOVER" && (
+        {gameState.status === "GAMEOVER" && (
           <div className="absolute left-0 right-0 h-24 top-[300px]">
             <Heading>GAME OVER</Heading>
           </div>

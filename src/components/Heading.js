@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function Heading({ children, variant }) {
+export default function Heading({ children, variant, className }) {
   return (
     <>
-      <div className="flex items-center justify-around flex-grow">
+      <div className={`flex items-center justify-around flex-grow ${className}`}>
         <div className="flex-auto h-1 bg-black "></div>
         <div className="px-2">
           {variant === "h2" ? (

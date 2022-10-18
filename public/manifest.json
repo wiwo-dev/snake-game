@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Snake Game",
+  "name": "Do you remember playing Snake on Nokia 3210?",
   "icons": [
     {
       "src": "favicon.ico",

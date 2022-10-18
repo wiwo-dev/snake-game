@@ -9,7 +9,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import db from "../utils/Firebase";
 
 export default function GameOver() {
-  const { userName, setUserName, score, lastSavedScore, setLastSavedScore } = useContext(GameContext);
+  const { userName, setUserName, gameState, lastSavedScore, setLastSavedScore } = useContext(GameContext);
 
   const [isSaving, setIsSaving] = useState(false);
 
@@ -18,7 +18,7 @@ export default function GameOver() {
   const addScore = async (score, playerName) => {
     const docData = {
       playerName,
-      score,
+      score: gameState.points,
       saveTime: serverTimestamp(),
     };
     setIsSaving(true);
@@ -40,7 +40,8 @@ export default function GameOver() {
         <SubpageHeader>Game Over</SubpageHeader>
         <section className="max-w-sm pt-8 mx-auto">
           <section className="flex flex-col items-stretch gap-6">
-            <div className="mx-auto text-2xl font-vt323">SCORE: {score}</div>
+            <div className="mx-auto text-2xl font-vt323">SCORE: {gameState.points}</div>
+            <div className="mx-auto text-2xl font-vt323">Type your name and save the score!</div>
             <form
               className="flex flex-col items-center gap-6"
               onChange={(e) => {
@@ -51,15 +52,16 @@ export default function GameOver() {
               onSubmit={(e) => {
                 e.preventDefault();
                 console.log("WYSLANO: " + userName);
-                addScore(score, userName);
+                addScore(gameState.points, userName);
               }}>
-              <Input fullWidth placeholder="Your name..." required autoFocus pattern="^[a-zA-Z]{1,10}$" />
-              <Button fullWidth type="submit">
+              <Input fullWidth placeholder="Your name..." required autoFocus pattern="^[a-zA-Z0-1]{1,10}$" />
+
+              <Button fullWidth variant="dark" loading={isSaving} disabled={isSaving} type="submit">
                 {isSaving ? "SAVING..." : "SAVE SCORE"}
               </Button>
               <p></p>
             </form>
-            <div className="pt-6">
+            <div className="pt-6 flex flex-col gap-5">
               <Button fullWidth variant="clear" onClick={() => navigate("/highscores")}>
                 HIGHSCORES
               </Button>
