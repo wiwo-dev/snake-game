@@ -41,7 +41,10 @@ export default function useSnakeGame({ handleGameOver }) {
     const chekIfOnStar = () => {
       return x === gameState.starPosition.x && y === gameState.starPosition.y;
     };
-    while (checkIfInSnake() && chekIfOnStar()) setRandom();
+    while (checkIfInSnake() || chekIfOnStar()) {
+      console.log("while loop");
+      setRandom();
+    }
     return { x, y };
   };
 
@@ -121,7 +124,7 @@ export default function useSnakeGame({ handleGameOver }) {
       });
       onBonusScore();
       console.log("yeah 🍎 points: " + gameState.points);
-    } else if (snake.filter((sn) => (sn.x === x) & (sn.y === y)).length > 0) {
+    } else if (snake.filter((sn) => sn.x === x && sn.y === y).length > 0) {
       console.log("❌ GAME OVER 🍰🍰🍰🍰 SNAKE EAT HIMSELF 😔");
       setGameState({ ...gameState, status: "GAMEOVER" });
       handleGameOver();
