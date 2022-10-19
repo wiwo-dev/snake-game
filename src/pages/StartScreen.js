@@ -30,7 +30,9 @@ export default function StartScreen() {
                 onClick={() => {
                   setSpeed(el);
                 }}
-                variant={speed === el ? "dark" : "ligth"}>
+                variant={speed === el ? "dark" : "ligth"}
+                pressed={speed === el}
+                disabled={speed === el}>
                 {el}
               </Button>
             ))}
@@ -45,11 +47,8 @@ export default function StartScreen() {
             <Button fullWidth variant="light" onClick={() => navigate("/highscores")}>
               HIGHSCORES
             </Button>
-            <Button fullWidth variant="light" onClick={() => navigate("/instructions")}>
-              INSTRUCTIONS
-            </Button>
-            <Button fullWidth variant="light" onClick={() => navigate("/settings")}>
-              SETTINGS
+            <Button fullWidth variant="light" onClick={() => navigate("/instructions-settings")}>
+              INSTRUCTIONS & SETTINGS
             </Button>
           </section>
         </div>

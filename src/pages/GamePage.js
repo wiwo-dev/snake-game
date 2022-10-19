@@ -16,8 +16,8 @@ import useSnakeGame from "../modules/snake-game/useSnakeGame";
 
 export default function GamePage() {
   const handleGameOver = async () => {
-    setGameState({ ...gameState, status: "GAMEOVER" });
     console.log("handleGameOver");
+    setGameState({ ...gameState, status: "GAMEOVER" });
     await new Promise((resolve) => setTimeout(resolve, 2000));
     console.log("navigating to gameover");
     navigate("/gameover");

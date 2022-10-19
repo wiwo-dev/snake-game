@@ -7,8 +7,8 @@ export function GameContextProvider({ children }) {
   const [speed, setSpeed] = useState(3);
   const [wallTeleport, setWallTeleport] = useState(true);
   const [lastSavedScore, setLastSavedScore] = useState(null);
-  const [boardWidth, setBoardWidth] = useState(13);
-  const [boardHeight, setBoardHeight] = useState(10);
+  const [boardWidth, setBoardWidth] = useState(16);
+  const [boardHeight, setBoardHeight] = useState(12);
   const [gameStatus, setGameStatus] = useState("RUNNING");
   //running
   //gameover

@@ -9,11 +9,8 @@ import GameOver from "./pages/GameOver";
 import GamePage from "./pages/GamePage";
 import NothingHere from "./pages/NothingHere";
 import Highscores from "./pages/Highscores";
-import Heading from "./components/Heading";
 import Tests from "./pages/Tests";
-import Instructions from "./pages/Instructions";
-import ScrollToTop from "./utils/ScrollToTop";
-import Settings from "./pages/Settings";
+import InstructionsAndSettings from "./pages/InstructionsAndSettings";
 
 function App() {
   const onResize = () => {
@@ -45,13 +42,12 @@ function App() {
             }>
             <Route index element={<StartScreen />} />
             <Route path="/highscores" element={<Highscores />} />
-            <Route path="/instructions" element={<Instructions />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/instructions-settings" element={<InstructionsAndSettings />} />
             <Route path="/game" element={<GamePage />} />
             <Route path="/gameover" element={<GameOver />} />
             <Route path="/nothinghere" element={<NothingHere />} />
             <Route path="/tests" element={<Tests />} />
-            <Route path="*" element={<p>**WSZYSTKO**</p>} />
+            <Route path="*" element={<p className="text-center">**404**</p>} />
           </Route>
         </Routes>
       </GameContextProvider>

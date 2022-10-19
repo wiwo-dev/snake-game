@@ -40,26 +40,18 @@ export default function useSnake({ startPosition, boardWidth, boardHeight }) {
   const moveSnake = ({ x, y, addPoint = false }) => {
     const copy = [...snake];
     copy.unshift({ x, y });
-    if (!addPoint) copy.pop();
+    let popped;
+    if (!addPoint) popped = copy.pop();
 
     copy[0] = { ...copy[0], part: "H" };
-
-    if (copy.length >= 2) {
-      const part = headDirection(copy[0], copy[1]);
-      copy[0] = { ...copy[0], part };
-    }
-
-    //case length===2
-    if (copy.length === 2) {
-      let part = secondElementDirection(copy[0], copy[1]);
-      copy[1] = { ...copy[1], part };
-    }
+    if (popped) copy[0] = { ...copy[0], part: headDirection(copy[0], popped) };
+    if (copy.length >= 2) copy[0] = { ...copy[0], part: headDirection(copy[0], copy[1]) };
+    if (copy.length === 2) copy[1] = { ...copy[1], part: secondElementDirection(copy[0], copy[1]) };
     if (copy.length > 2) {
       for (let i = 1; i < copy.length - 1; i++) {
         const part = whatPart(copy[i - 1], copy[i], copy[i + 1]);
         copy[i] = { ...copy[i], part };
       }
-      //copy[copy.length - 1] = { ...copy[copy.length - 1], part: "T" };
     }
 
     setSnake(copy);

@@ -27,7 +27,7 @@ export default function useSnakeGame({ handleGameOver }) {
     boardHeight: boardHeight,
   });
 
-  const randomPosition = () => {
+  const randomPosition = (toCheck = { x: 1, y: 1 }) => {
     let x;
     let y;
     const setRandom = () => {
@@ -41,8 +41,14 @@ export default function useSnakeGame({ handleGameOver }) {
     const chekIfOnStar = () => {
       return x === gameState.starPosition.x && y === gameState.starPosition.y;
     };
-    while (checkIfInSnake() || chekIfOnStar()) {
-      console.log("while loop");
+    //used to check if not creating a new star on already existing apple
+    const checkPassedPoint = () => {
+      if (!toCheck) return false;
+      return x === toCheck.x && y === toCheck.y;
+    };
+
+    while (checkIfInSnake() || chekIfOnStar() || checkPassedPoint()) {
+      console.log("while loop when generating");
       setRandom();
     }
     return { x, y };
@@ -70,10 +76,6 @@ export default function useSnakeGame({ handleGameOver }) {
     else setGameState({ ...gameState, status: "PAUSED" });
   };
 
-  const gameOver = () => {
-    setGameState({ ...gameState, status: "GAMEOVER" });
-  };
-
   const getNextPosition = () => {
     let { x, y } = snake[0];
     if (gameState.direction === "L") x = x - 1;
@@ -85,11 +87,8 @@ export default function useSnakeGame({ handleGameOver }) {
 
   const makeNextStep = () => {
     if (gameState.status !== "RUNNING") return;
-
     bonusStarTick(gameState.speed);
-
     let { x, y } = getNextPosition();
-
     //check if move valid
     if (x < 0 || y < 0 || x >= boardWidth || y >= boardHeight) {
       if (wallTeleport) {
@@ -100,7 +99,6 @@ export default function useSnakeGame({ handleGameOver }) {
         moveSnake({ x, y });
       } else {
         console.log("❌ GAME OVER 😔");
-        setGameState({ ...gameState, status: "GAMEOVER" });
         handleGameOver();
         return;
       }
@@ -111,7 +109,7 @@ export default function useSnakeGame({ handleGameOver }) {
         ...gameState,
         points: gameState.points + gameState.speed,
         eatenElementsCount: gameState.eatenElementsCount + 1,
-        starPosition: randomPosition(),
+        starPosition: randomPosition(bonusPosition),
       });
       console.log("yeah ⭐ points: " + gameState.points);
     } else if (x === bonusPosition?.x && y === bonusPosition?.y) {
@@ -126,7 +124,6 @@ export default function useSnakeGame({ handleGameOver }) {
       console.log("yeah 🍎 points: " + gameState.points);
     } else if (snake.filter((sn) => sn.x === x && sn.y === y).length > 0) {
       console.log("❌ GAME OVER 🍰🍰🍰🍰 SNAKE EAT HIMSELF 😔");
-      setGameState({ ...gameState, status: "GAMEOVER" });
       handleGameOver();
     } else {
       moveSnake({ x, y });
@@ -139,7 +136,7 @@ export default function useSnakeGame({ handleGameOver }) {
     makeNextStep,
     changeDirection,
     togglePause,
-    gameOver,
+
     bonusPosition,
     bonusTimeRemaining,
     randomPosition,
