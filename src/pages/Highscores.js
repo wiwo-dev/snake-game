@@ -2,11 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import { motion } from "framer-motion";
 import { collection, query, where, orderBy, limit, getDocs, startAfter } from "firebase/firestore";
 import db from "../utils/Firebase";
-
-import Button from "../components/Button";
-import SubpageHeader from "../components/SubpageHeader";
-
-import { GameContext } from "../context/GameContext";
+import { Button, SubpageHeader } from "../components";
+import { GameContext } from "../modules/SnakeGame";
 import { useNavigate } from "react-router-dom";
 
 const HIGHSCORES_LIMITS = {
@@ -23,7 +20,7 @@ async function getScores(db) {
 }
 
 export default function Highscores() {
-  const { lastSavedScore, setLastSavedScore, gameState } = useContext(GameContext);
+  const { lastSavedScore, gameState } = useContext(GameContext);
 
   const [scoresSnapshot, setScoresSnapshot] = useState();
   const [scores, setScores] = useState([]);
@@ -120,7 +117,7 @@ export default function Highscores() {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: "32px" }}
                   className={`text-left flex bg-[rgba(0,0,0,.3)]`}>
-                  <div className="px-2 w-[25%]">>{scores.length}</div>
+                  <div className="px-2 w-[25%]">{scores.length > 0 && `>${scores.length}`}</div>
                   <div className="px-2 w-[50%] uppercase">{lastSavedScore.playerName}</div>
                   <div className="px-2 w-[25%]">{lastSavedScore.score}</div>
                 </motion.section>

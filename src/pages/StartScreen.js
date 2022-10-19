@@ -1,11 +1,7 @@
 import React, { useContext } from "react";
-import Button from "../components/Button";
-
-import Heading from "../components/Heading";
-
-import SnakeLogo from "../components/SnakeLogo";
+import { Button, Heading, SnakeLogo } from "../components";
 import { useNavigate } from "react-router-dom";
-import { GameContext } from "../context/GameContext";
+import { GameContext } from "../modules/SnakeGame";
 
 export default function StartScreen() {
   const { speed, setSpeed } = useContext(GameContext);

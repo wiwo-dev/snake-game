@@ -1,15 +1,13 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../components/Button";
-import Input from "../components/Input";
-import SubpageHeader from "../components/SubpageHeader";
-import { GameContext } from "../context/GameContext";
+import { Button, Input, SubpageHeader } from "../components";
+import { GameContext } from "../modules/SnakeGame";
 
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import db from "../utils/Firebase";
 
 export default function GameOver() {
-  const { userName, setUserName, gameState, lastSavedScore, setLastSavedScore } = useContext(GameContext);
+  const { userName, setUserName, gameState, setLastSavedScore } = useContext(GameContext);
 
   const [isSaving, setIsSaving] = useState(false);
 

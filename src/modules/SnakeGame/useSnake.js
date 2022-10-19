@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function useSnake({ startPosition, boardWidth, boardHeight }) {
   const [snake, setSnake] = useState([startPosition]);

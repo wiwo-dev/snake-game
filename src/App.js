@@ -1,21 +1,12 @@
-import React, { useContext, useEffect } from "react";
-
+import React, { useEffect } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
-import StartScreen from "./pages/StartScreen";
-
-import { GameContextProvider } from "./context/GameContext";
-
-import GameOver from "./pages/GameOver";
-import GamePage from "./pages/GamePage";
-import Highscores from "./pages/Highscores";
-import Tests from "./pages/Tests";
-import InstructionsAndSettings from "./pages/InstructionsAndSettings";
+import { GameContextProvider } from "./modules/SnakeGame";
+import { StartScreen, GameOver, GamePage, Highscores, InstructionsAndSettings } from "./pages";
 
 function App() {
   const onResize = () => {
     document.querySelector(":root").style.setProperty("--vh", window.innerHeight / 100 + "px");
   };
-
   useEffect(() => {
     window.addEventListener("resize", onResize);
     onResize();
@@ -44,7 +35,6 @@ function App() {
             <Route path="/instructions-settings" element={<InstructionsAndSettings />} />
             <Route path="/game" element={<GamePage />} />
             <Route path="/gameover" element={<GameOver />} />
-            <Route path="/tests" element={<Tests />} />
             <Route path="*" element={<p className="text-center">**404**</p>} />
           </Route>
         </Routes>

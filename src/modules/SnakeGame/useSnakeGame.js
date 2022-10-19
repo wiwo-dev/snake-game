@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import { GameContext } from "../../context/GameContext";
+import { useContext, useEffect } from "react";
+import { GameContext } from "./GameContext";
 import useBonusStar from "./useBonusStar";
 import useSnake from "./useSnake";
 

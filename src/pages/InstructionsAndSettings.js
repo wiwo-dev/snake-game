@@ -1,15 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
-
-import Button from "../components/Button";
-import SubpageHeader from "../components/SubpageHeader";
-
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import JoyStick from "../components/JoyStick";
-import { GameContext } from "../context/GameContext";
-import { AppleSVG } from "../modules/snake-game/Icons/Apple";
-import { StarSVG } from "../modules/snake-game/Icons/Star";
-import Heading from "../components/Heading";
-import Board from "../modules/snake-game/Board";
+import { GameContext, JoyStick, Board } from "../modules/SnakeGame";
+import { AppleSVG, StarSVG } from "../modules/SnakeGame/Icons";
+
+import { Button, SubpageHeader, Heading } from "../components";
 
 const SIZE_LIMITS = {
   MAX_WIDTH: 100,

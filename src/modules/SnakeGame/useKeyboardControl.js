@@ -25,7 +25,7 @@ const useKeyboardControl = ({ onChange }) => {
   );
 
   useEffect(() => {
-    const listener = document.addEventListener("keydown", keyPress);
+    document.addEventListener("keydown", keyPress);
     return () => {
       document.removeEventListener("keydown", keyPress);
     };

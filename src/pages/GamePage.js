@@ -1,18 +1,9 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import JoyStick from "../components/JoyStick";
-import { GameContext } from "../context/GameContext";
-import Board from "../modules/snake-game/Board";
-import useKeyboardControl from "../modules/snake-game/useKeyboardControl";
+import { GameContext, Board, useKeyboardControl, JoyStick, ControlButton, useSnakeGame } from "../modules/SnakeGame";
+import { SubpageHeader, Heading } from "../components";
 import useInterval from "../utils/useInterval";
-import ControlButton from "../components/ControlButton";
-import Heading from "../components/Heading";
-import SubpageHeader from "../components/SubpageHeader";
-import useSnakeGame from "../modules/snake-game/useSnakeGame";
-
-// const BOARD_WIDTH = 20;
-// const BOARD_HEIGHT = 15;
 
 export default function GamePage() {
   const handleGameOver = async () => {
@@ -27,7 +18,7 @@ export default function GamePage() {
     handleGameOver,
   });
   const { speed, gameState, setGameState, boardWidth, boardHeight } = useContext(GameContext);
-  const { direction } = useKeyboardControl({ onChange: changeDirection });
+  useKeyboardControl({ onChange: changeDirection });
 
   const handlePauseClick = () => {
     togglePause();

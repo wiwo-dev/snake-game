@@ -1,5 +1,5 @@
-import React, { useContext, useRef, useState } from "react";
-import { GameContext } from "../../context/GameContext";
+import { useContext, useRef, useState } from "react";
+import { GameContext } from "./GameContext";
 
 const DEFAULT_BONUS_TIME = 60;
 

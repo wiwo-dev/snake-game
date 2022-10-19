@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import useWindowWidth from "../../utils/useWindowWidth";
-import { AppleSVG } from "./Icons/Apple";
-import { PartBH } from "./Icons/PartBH";
-import { PartBV } from "./Icons/PartBV";
-import { PartCornerLeftBottom } from "./Icons/PartCornerLeftBottom";
-import { PartCornerLeftTop } from "./Icons/PartCornerLeftTop";
-import { PartCornerRightBottom } from "./Icons/PartCornerRightBottom";
-import { PartCornerRightTop } from "./Icons/PartCornerRightTop";
-import { PartHead } from "./Icons/PartHead";
-import { StarSVG } from "./Icons/Star";
+import {
+  AppleSVG,
+  PartBH,
+  PartBV,
+  PartCornerLeftBottom,
+  PartCornerLeftTop,
+  PartCornerRightBottom,
+  PartCornerRightTop,
+  PartHead,
+  StarSVG,
+} from "./Icons/";
 
 const Board = ({
   width,
@@ -96,7 +98,6 @@ const BoardCellAbsolute = ({
   headDirection,
   children,
 }) => {
-  const snakeFill = "#777777";
   return (
     <div
       className={`absolute ${color} ${gameOverAnimation && "animate-ping"} flex justify-center items-center`}
