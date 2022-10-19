@@ -64,10 +64,15 @@ export default function useSnakeGame({ handleGameOver }) {
   });
 
   const changeDirection = (dir) => {
+    //to prevent switching to oposit direction
     if (gameState.direction === "R" && dir === "L") return;
+    if (snake[0].part === "HR" && dir === "L") return;
     if (gameState.direction === "L" && dir === "R") return;
+    if (snake[0].part === "HL" && dir === "R") return;
     if (gameState.direction === "U" && dir === "D") return;
+    if (snake[0].part === "HU" && dir === "D") return;
     if (gameState.direction === "D" && dir === "U") return;
+    if (snake[0].part === "HD" && dir === "U") return;
     setGameState({ ...gameState, direction: dir });
   };
 
