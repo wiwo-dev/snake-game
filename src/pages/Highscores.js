@@ -23,7 +23,7 @@ async function getScores(db) {
 }
 
 export default function Highscores() {
-  const { lastSavedScore, setLastSavedScore, gameStatus } = useContext(GameContext);
+  const { lastSavedScore, setLastSavedScore, gameState } = useContext(GameContext);
 
   const [scoresSnapshot, setScoresSnapshot] = useState();
   const [scores, setScores] = useState([]);
@@ -140,7 +140,7 @@ export default function Highscores() {
           </Button>
 
           <Button variant="clear" fullWidth onClick={() => navigate("/game")}>
-            {gameStatus === "GAMEOVER" ? "PLAY AGAIN" : "PLAY"}
+            {gameState.status === "GAMEOVER" ? "PLAY AGAIN" : "PLAY"}
           </Button>
         </div>
         {isError && <p className="font-vt323 text-small text-center">database connection error...</p>}

@@ -2,7 +2,7 @@ import React from "react";
 //import snake from "./twemoji_snake.svg";
 import snake from "./snake2.svg";
 
-export default function SnakeAnimation() {
+export default function SnakeLogo() {
   return (
     <>
       <div className="p-4 xs:p-6 md:p-10 mx-auto w-fit">

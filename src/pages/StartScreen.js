@@ -3,7 +3,7 @@ import Button from "../components/Button";
 
 import Heading from "../components/Heading";
 
-import SnakeAnimation from "../components/SnakeAnimation";
+import SnakeLogo from "../components/SnakeLogo";
 import { useNavigate } from "react-router-dom";
 import { GameContext } from "../context/GameContext";
 
@@ -19,7 +19,7 @@ export default function StartScreen() {
             Do you remember playing Snake on Nokia 3210?
           </p>
         </div>
-        <SnakeAnimation />
+        <SnakeLogo />
 
         <section className="flex flex-col gap-2 mt-7">
           <Heading variant="h2">Select speed</Heading>

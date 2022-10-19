@@ -24,10 +24,3 @@ export default function SubpageHeader({ children, variant }) {
     </>
   );
 }
-
-// <div className="flex items-center">
-// <Heading variant="h1">Game</Heading>
-// <div className="px-4 hover:cursor-pointer" onClick={() => navigate("/")}>
-//   X
-// </div>
-// </div>

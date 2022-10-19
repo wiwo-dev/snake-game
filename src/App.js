@@ -7,7 +7,6 @@ import { GameContextProvider } from "./context/GameContext";
 
 import GameOver from "./pages/GameOver";
 import GamePage from "./pages/GamePage";
-import NothingHere from "./pages/NothingHere";
 import Highscores from "./pages/Highscores";
 import Tests from "./pages/Tests";
 import InstructionsAndSettings from "./pages/InstructionsAndSettings";
@@ -45,7 +44,6 @@ function App() {
             <Route path="/instructions-settings" element={<InstructionsAndSettings />} />
             <Route path="/game" element={<GamePage />} />
             <Route path="/gameover" element={<GameOver />} />
-            <Route path="/nothinghere" element={<NothingHere />} />
             <Route path="/tests" element={<Tests />} />
             <Route path="*" element={<p className="text-center">**404**</p>} />
           </Route>

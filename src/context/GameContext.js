@@ -9,10 +9,6 @@ export function GameContextProvider({ children }) {
   const [lastSavedScore, setLastSavedScore] = useState(null);
   const [boardWidth, setBoardWidth] = useState(16);
   const [boardHeight, setBoardHeight] = useState(12);
-  const [gameStatus, setGameStatus] = useState("RUNNING");
-  //running
-  //gameover
-  //paused
 
   const [gameState, setGameState] = useState({
     points: 0,
@@ -20,6 +16,9 @@ export function GameContextProvider({ children }) {
     //starPosition: randomPosition(),
     starPosition: { x: 2, y: 3 },
     status: "RUNNING",
+    //running
+    //gameover
+    //paused
     direction: "R",
     speed: speed,
   });
@@ -33,8 +32,6 @@ export function GameContextProvider({ children }) {
     setWallTeleport,
     gameState,
     setGameState,
-    gameStatus,
-    setGameStatus,
     lastSavedScore,
     setLastSavedScore,
     boardWidth,
