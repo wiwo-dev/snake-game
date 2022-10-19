@@ -9,10 +9,15 @@ import SubpageHeader from "../components/SubpageHeader";
 import { GameContext } from "../context/GameContext";
 import { useNavigate } from "react-router-dom";
 
+const HIGHSCORES_LIMITS = {
+  INITIAL_LIMIT: 10,
+  LOAD_MORE_LIMIT: 5,
+};
+
 // Get a list of results from your database
 async function getScores(db) {
   const scoresRef = collection(db, "scores");
-  const q = query(scoresRef, where("score", ">=", 0), orderBy("score", "desc"), limit(10));
+  const q = query(scoresRef, where("score", ">=", 0), orderBy("score", "desc"), limit(HIGHSCORES_LIMITS.INITIAL_LIMIT));
   const scoresSnapshot = await getDocs(q);
   return scoresSnapshot;
 }
@@ -45,18 +50,23 @@ export default function Highscores() {
 
   const loadMore = async () => {
     const lastVisible = scoresSnapshot.docs[scoresSnapshot.size - 1];
-    console.log("last", lastVisible);
     if (!lastVisible) {
       setIsError(true);
       setIsAllLoaded(true);
       return;
     }
 
-    const next = query(collection(db, "scores"), orderBy("score", "desc"), startAfter(lastVisible), limit(5));
+    const next = query(
+      collection(db, "scores"),
+      orderBy("score", "desc"),
+      startAfter(lastVisible),
+      limit(HIGHSCORES_LIMITS.LOAD_MORE_LIMIT)
+    );
     setisLoading(true);
     try {
       const newScoresSnapshot = await getDocs(next);
       setScoresSnapshot(newScoresSnapshot);
+      if (newScoresSnapshot.docs.length < HIGHSCORES_LIMITS.LOAD_MORE_LIMIT) setIsAllLoaded(true);
       setScores((prev) => [...prev, ...newScoresSnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))]);
       setisLoading(false);
     } catch (error) {
@@ -119,16 +129,22 @@ export default function Highscores() {
           </div>
         </div>
         <div className="flex flex-col items-center gap-5 pt-5 max-w-sm mx-auto">
-          <Button variant="light" loading={isLoading} disabled={isLoading} fullWidth onClick={() => loadMore(scores)}>
-            {isLoading ? "LOADING..." : "LOAD MORE..."}
+          <Button
+            variant="light"
+            loading={isLoading}
+            disabled={isLoading || isAllLoaded}
+            fullWidth
+            onClick={() => loadMore(scores)}
+            pressed={isAllLoaded}>
+            {isLoading ? "LOADING..." : isAllLoaded ? "ALL SCORES ARE LOADED" : "LOAD MORE..."}
           </Button>
 
           <Button variant="clear" fullWidth onClick={() => navigate("/game")}>
             {gameStatus === "GAMEOVER" ? "PLAY AGAIN" : "PLAY"}
           </Button>
         </div>
-        {isError && <p className="font-vt323 text-small">database connection error...</p>}
-        {isAllLoaded && <p className="font-vt323 text-small">thats all</p>}
+        {isError && <p className="font-vt323 text-small text-center">database connection error...</p>}
+        {/* {isAllLoaded && <p className="font-vt323 text-small">thats all</p>} */}
       </section>
     </>
   );

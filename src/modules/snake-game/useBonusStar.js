@@ -16,18 +16,21 @@ export default function useBonusStar({ randomPosition }) {
   const bonusStarCreated = useRef(false);
 
   const bonusStarTick = (speed) => {
+    setBonusTimeRemaining((prev) => prev - speed);
     if (bonusTimeRemaining <= speed) {
-      if (shouldCreateBonusStar) {
-        setBonusPosition(randomPosition());
-        setBonusTimeRemaining(DEFAULT_BONUS_TIME);
-        bonusStarCreated.current = true;
-        return bonusPosition;
-      }
       setBonusPosition(null);
       setBonusTimeRemaining(0);
-      return null;
     }
-    setBonusTimeRemaining((prev) => prev - speed);
+    if (shouldCreateBonusStar() && !bonusStarCreated.current) {
+      setBonusPosition(randomPosition());
+      setBonusTimeRemaining(DEFAULT_BONUS_TIME);
+      bonusStarCreated.current = true;
+      return bonusPosition;
+    }
+    //reset eaten bonus flag
+    if (gameState.eatenElementsCount % 5 === 1) {
+      bonusStarCreated.current = false;
+    }
   };
 
   //when eating a bonus
