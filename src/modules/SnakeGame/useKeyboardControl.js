@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 
-const useKeyboardControl = ({ onChange }) => {
+const useKeyboardControl = ({ onChange, onSpace, onEscape }) => {
   const [direction, setDirection] = useState("R");
 
   const keyPress = useCallback(
@@ -15,10 +15,13 @@ const useKeyboardControl = ({ onChange }) => {
         setDirection("L");
         onChange("L");
       } else if (e.keyCode === "39" || e.code === "ArrowRight") {
+        console.log("RIGHT");
         setDirection("R");
         onChange("R");
-      } else if (e.keyCode === "32" || e.code === " " || e.code === "Spacebar") {
-        console.log("SPACJA");
+      } else if (e.keyCode === "32" || e.key === " " || e.code === "Space") {
+        onSpace();
+      } else if (e.keyCode === "27" || e.key === "Escape") {
+        onEscape();
       }
     },
     [setDirection, onChange]

@@ -7,7 +7,6 @@ import useInterval from "../utils/useInterval";
 
 export default function GamePage() {
   const handleGameOver = async () => {
-    console.log("handleGameOver");
     setGameState({ ...gameState, status: "GAMEOVER" });
     await new Promise((resolve) => setTimeout(resolve, 2000));
     console.log("navigating to gameover");
@@ -17,12 +16,11 @@ export default function GamePage() {
   const { snake, makeNextStep, changeDirection, togglePause, bonusPosition, bonusTimeRemaining } = useSnakeGame({
     handleGameOver,
   });
-  const { speed, gameState, setGameState, boardWidth, boardHeight } = useContext(GameContext);
-  useKeyboardControl({ onChange: changeDirection });
-
   const handlePauseClick = () => {
     togglePause();
   };
+  const { speed, gameState, setGameState, boardWidth, boardHeight } = useContext(GameContext);
+  useKeyboardControl({ onChange: changeDirection, onSpace: handlePauseClick, onEscape: handleGameOver });
 
   const [setActualDelay] = useInterval(() => {
     if (gameState.status !== "STOPPED") {
@@ -67,11 +65,11 @@ export default function GamePage() {
             gameOver={gameState.status === "GAMEOVER"}
             headDirection={gameState.direction}></Board>
 
-          <div className="flex justify-around mt-10 gap-6 xs:gap-3 flex-wrap">
+          <div className="flex justify-around mt-3 xs:mt-10 gap-3 xs:gap-3 flex-wrap flex-wrap-reverse">
             <div>
               <JoyStick direction={gameState.direction} onDirectionChange={(dir) => changeDirection(dir)} />
             </div>
-            <div className="flex flex-row xs:flex-col gap-3 xs:gap-1">
+            <div className="flex flex-row xs:flex-col gap-14 xs:gap-1 justify-between">
               <ControlButton size="100" onClick={handlePauseClick}>
                 PAUSE
               </ControlButton>
