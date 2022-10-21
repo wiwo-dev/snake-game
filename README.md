@@ -40,7 +40,7 @@ Scoring is based on the level. The higher the level, the faster the snake moves 
 
 Bonuses (apples) apear in random positions on every 5th element eaten by the snake. The faster an apple is eaten, the more points it gives.
 
-Result of the game can be saved. User just need to type their name. Score is saved in Firebase.
+Result of the game can be saved. User just need to type their name. Score is saved in Firebase Firestore.
 
 ## Even better if...
 
