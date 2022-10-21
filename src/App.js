@@ -4,16 +4,16 @@ import { GameContextProvider } from "./modules/SnakeGame";
 import { StartScreen, GameOver, GamePage, Highscores, InstructionsAndSettings } from "./pages";
 
 function App() {
-  // const onResize = () => {
-  //   document.querySelector(":root").style.setProperty("--vh", window.innerHeight / 100 + "px");
-  // };
-  // useEffect(() => {
-  //   window.addEventListener("resize", onResize);
-  //   onResize();
-  //   return () => {
-  //     window.removeEventListener("resize", onResize);
-  //   };
-  // }, []);
+  const onResize = () => {
+    document.querySelector(":root").style.setProperty("--vh", window.innerHeight / 100 + "px");
+  };
+  useEffect(() => {
+    window.addEventListener("resize", onResize);
+    onResize();
+    return () => {
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
 
   return (
     <div>
