@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# Snake Game
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Do you remember playing Snake on Nokia 3210? I do!
+That's why I decided to recreate Snake Game.
 
-## Available Scripts
+This project is build in React. Tailwind CSS is used for styling.
+Highscores are stored in Firebase.
 
-In the project directory, you can run:
+## Play 🎮
 
-### `npm start`
+You can play it here [https://snake.wiwoproduction.com/](https://snake.wiwoproduction.com/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+PS: Don't forget to save your score 😄
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## About
 
-### `npm test`
+This is a fun project I made for my developer portfolio.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Game loop
 
-### `npm run build`
+I decided to build it fully in React without any gaming oriented liblaries. It made me struggle a bit with Web Api `setInterval()` as it is working a bit strange with React. This blog post helped me https://overreacted.io/making-setinterval-declarative-with-react-hooks/
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Interface
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+I designed the interface in Figma and coded it with Tailwind CSS. All the graphics are SVG elements and are implemented as separate components so I can easilly reuse and alter them in the code.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Look and feel was inspired by some other Snake Game implementations I've found online and by my memory of playing Snake on Nokia 3210 when I was a kid.
 
-### `npm run eject`
+I didn't design every single view fully in Figma. I've been creating some elements to have a nice overwiev of how it will look after coding. That definitelly helped with speeding up the coding process and let me split design decisions from actual code writing.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+You can see my Figma project here: https://www.figma.com/file/tjj7QDjwTS66kcEQIP9tXA/Snake-Game?node-id=4%3A3
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Settings
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Players can change the sizes of the playing board and turn the wall teleport on/off. Those settings are available in the "Instructions & Settings" subpage. Everything is being saved in react's context so there is no need to confirm. Changes are visible in the game.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Scoring & scores saving
 
-## Learn More
+Scoring is based on the level. The higher the level, the faster the snake moves and each star gives more points.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Bonuses (apples) apear in random positions on every 5th element eaten by the snake. The faster an apple is eaten, the more points it gives.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Result of the game can be saved. User just need to type their name. Score is saved in Firebase.
 
-### Code Splitting
+## Even better if...
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+As with every coding projects, thare is always something that can be done differentlly or better. In this one, there is no backend. Firebase is handled fully by the front end. That makes the game vulnerable to score manipulation.
+A solution to make it cheating proof would be to implement some sort of backend that receives the course of the game and calculates the score on BE side, and then save it.

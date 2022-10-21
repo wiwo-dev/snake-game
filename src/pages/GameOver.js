@@ -39,7 +39,7 @@ export default function GameOver() {
         <section className="max-w-sm pt-8 mx-auto">
           <section className="flex flex-col items-stretch gap-6">
             <div className="mx-auto text-2xl font-vt323">SCORE: {gameState.points}</div>
-            <div className="mx-auto text-2xl font-vt323">Type your name and save the score!</div>
+            <div className="mx-auto text-2xl font-vt323 text-center">Type your name and save the score!</div>
             <form
               className="flex flex-col items-center gap-6"
               onChange={(e) => {
