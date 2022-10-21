@@ -44,12 +44,12 @@ export default function GameOver() {
               className="flex flex-col items-center gap-6"
               onChange={(e) => {
                 e.preventDefault();
-                console.log(e.target.value);
+                //console.log(e.target.value);
                 setUserName(e.target.value);
               }}
               onSubmit={(e) => {
                 e.preventDefault();
-                console.log("WYSLANO: " + userName);
+                //console.log("WYSLANO: " + userName);
                 addScore(gameState.points, userName);
               }}>
               <Input fullWidth placeholder="Your name..." required autoFocus pattern="^[a-zA-Z0-1]{1,10}$" />

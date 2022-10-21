@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /scores/{score} {
+       allow read: if
+           request.time < timestamp.date(2023, 12, 31);
+      allow create: if request.resource.data.score > 0
+          
+    }
+  }
+}
