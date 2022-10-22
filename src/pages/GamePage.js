@@ -80,7 +80,7 @@ export default function GamePage() {
           </div>
         </div>
         {gameState.status === "GAMEOVER" && (
-          <div className="absolute left-0 right-0 h-24 top-[300px]">
+          <div className="absolute left-0 right-0 h-24 top-[170px]">
             <Heading>GAME OVER</Heading>
           </div>
         )}
