@@ -38,11 +38,10 @@ Players can change the sizes of the playing board and turn the wall teleport on/
 
 Scoring is based on the level. The higher the level, the faster the snake moves and each star gives more points.
 
-Bonuses (apples) apear in random positions on every 5th element eaten by the snake. The faster an apple is eaten, the more points it gives.
+Bonuses (apples) appear in random positions on every 5th element eaten by the snake. The faster an apple is eaten, the more points it gives.
 
-Result of the game can be saved. User just need to type their name. Score is saved in Firebase Firestore.
+The result of the game can be saved. The user just needs to type their name. The score is saved in Firebase Firestore.
 
 ## Even better if...
 
-As with every coding projects, thare is always something that can be done differentlly or better. In this one, there is no backend. Firebase is handled fully by the front end. That makes the game vulnerable to score manipulation.
-A solution to make it cheating proof would be to implement some sort of backend that receives the course of the game and calculates the score on BE side, and then save it.
+As with every coding project, there is always something that can be done differently or better. In this one, there is no backend. Firebase is handled fully by the front end. That makes the game vulnerable to score manipulation. A solution to make it cheating-proof would be to implement some sort of backend that receives the course of the game and calculates the score on BE side, and then save it.
